@@ -1,0 +1,1712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jacob Cunningham Guitar Lessons</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cardo:wght@400;700&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #1a1a2e;
+            --secondary: #d4a574;
+            --accent: #e94560;
+            --light: #f5f1e8;
+            --dark: #0f0f1e;
+            --gold: #b8860b;
+            --sage: #7a9b8e;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: linear-gradient(135deg, var(--primary) 0%, #2d2d4a 50%, var(--dark) 100%);
+            min-height: 100vh;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 20% 50%, rgba(212, 165, 116, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(233, 69, 96, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, #1f1f35 100%);
+            color: var(--light);
+            padding: 60px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 3px solid var(--secondary);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        header::before {
+            display: none;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateX(-50%) translateY(0px); }
+            50% { transform: translateX(-50%) translateY(-20px); }
+        }
+
+        header h1 {
+            font-family: 'Cardo', serif;
+            font-size: 3.5em;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.4);
+            font-weight: 800;
+            position: relative;
+            z-index: 1;
+        }
+
+        header p {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.1em;
+            opacity: 0.9;
+            font-weight: 300;
+            letter-spacing: 3px;
+            position: relative;
+            z-index: 1;
+            margin-bottom: 8px;
+        }
+
+        .header-price {
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.9em;
+            color: var(--secondary);
+            opacity: 0.95;
+            font-weight: 600;
+            letter-spacing: 1px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header-accent {
+            display: inline-block;
+            width: 60px;
+            height: 3px;
+            background: var(--secondary);
+            margin: 20px auto;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 0 10px rgba(212, 165, 116, 0.5);
+        }
+
+        .tagline {
+            display: none;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1100px;
+            margin: 50px auto;
+            background: var(--light);
+            border-radius: 16px;
+            padding: 50px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Intro Section */
+        .intro-section {
+            display: none;
+        }
+
+        .music-styles {
+            display: none;
+        }
+
+        .style-badge {
+            display: none;
+        }
+
+        /* Artist Influence Gallery */
+        .influences-section {
+            display: none;
+        }
+
+        .influences-section h2 {
+            display: none;
+        }
+
+        .influences-subtitle {
+            display: none;
+        }
+
+        .influences-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .influence-card {
+            background: linear-gradient(135deg, #fafaf8 0%, #f5f1e8 100%);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border: 2px solid rgba(212, 165, 116, 0.2);
+        }
+
+        .influence-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(212, 165, 116, 0.4);
+            border-color: var(--secondary);
+        }
+
+        .influence-icon {
+            width: 100%;
+            height: 120px;
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--gold) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3em;
+            color: white;
+        }
+
+        .influence-name {
+            padding: 15px;
+            text-align: center;
+            font-weight: 600;
+            color: var(--primary);
+            font-size: 0.9em;
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* SVG Guitar Players */
+        .svg-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        svg.guitar-illustration {
+            max-width: 100%;
+            height: auto;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+            transition: all 0.3s;
+        }
+
+        svg.guitar-illustration:hover {
+            filter: drop-shadow(0 8px 20px rgba(212, 165, 116, 0.4));
+            transform: scale(1.05);
+        }
+
+        /* Booking Section */
+        .booking-section {
+            margin-top: 40px;
+        }
+
+        .section-title {
+            font-family: 'Cardo', serif;
+            color: var(--primary);
+            font-size: 2em;
+            margin-bottom: 35px;
+            text-align: center;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 3px;
+            background: var(--secondary);
+        }
+
+        .calendar-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        @media (max-width: 900px) {
+            .calendar-wrapper {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .influences-grid {
+                grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            }
+        }
+
+        .calendar, .time-selection {
+            background: linear-gradient(135deg, #fafaf8 0%, #f5f1e8 100%);
+            padding: 30px;
+            border-radius: 12px;
+            border: 2px solid rgba(212, 165, 116, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(212, 165, 116, 0.3);
+        }
+
+        .calendar-header button {
+            background: var(--primary);
+            color: var(--secondary);
+            border: 2px solid var(--secondary);
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 700;
+            transition: all 0.3s;
+            font-family: 'Roboto Mono', monospace;
+        }
+
+        .calendar-header button:hover {
+            background: var(--secondary);
+            color: var(--primary);
+            transform: scale(1.05);
+        }
+
+        .calendar-header h3 {
+            color: var(--primary);
+            flex: 1;
+            text-align: center;
+            font-size: 1.3em;
+            font-family: 'Cardo', serif;
+            font-weight: 700;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+        }
+
+        .day-header {
+            text-align: center;
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 0.9em;
+            padding: 12px 0;
+            font-family: 'Outfit', sans-serif;
+            text-transform: uppercase;
+        }
+
+        .calendar-day {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            border: 2px solid rgba(212, 165, 116, 0.3);
+            background: white;
+            color: var(--primary);
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .calendar-day:hover:not(.other-month):not(.booked) {
+            background: var(--secondary);
+            color: white;
+            border-color: var(--secondary);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(212, 165, 116, 0.4);
+        }
+
+        .calendar-day.selected {
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--gold) 100%);
+            color: white;
+            border-color: var(--secondary);
+            box-shadow: 0 8px 25px rgba(212, 165, 116, 0.4);
+            transform: scale(1.05);
+        }
+
+        .calendar-day.other-month {
+            color: #ccc;
+            cursor: default;
+        }
+
+        .calendar-day.booked {
+            background: #d3d3d3;
+            color: #888;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .calendar-day.today {
+            border: 2px solid var(--accent);
+            background: rgba(233, 69, 96, 0.1);
+        }
+
+        .time-selection h3 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-family: 'Cardo', serif;
+            font-size: 1.3em;
+        }
+
+        #selectedDateDisplay {
+            display: none;
+        }
+
+        .time-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(85px, 1fr));
+            gap: 12px;
+        }
+
+        .time-slot {
+            padding: 14px;
+            border: 2px solid rgba(212, 165, 116, 0.3);
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            background: white;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            font-size: 0.9em;
+            font-weight: 600;
+            color: var(--primary);
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .time-slot:hover:not(.booked) {
+            border-color: var(--secondary);
+            background: rgba(212, 165, 116, 0.1);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(212, 165, 116, 0.3);
+        }
+
+        .time-slot.selected {
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--gold) 100%);
+            color: white;
+            border-color: var(--secondary);
+            box-shadow: 0 8px 25px rgba(212, 165, 116, 0.4);
+            transform: scale(1.05);
+        }
+
+        .time-slot.booked {
+            background: #e8e8e8;
+            color: #999;
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+
+        .user-info {
+            background: linear-gradient(135deg, #fafaf8 0%, #f5f1e8 100%);
+            padding: 30px;
+            border-radius: 12px;
+            border: 2px solid rgba(212, 165, 116, 0.2);
+            margin-bottom: 30px;
+        }
+
+        .user-info h3 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-family: 'Cardo', serif;
+            font-size: 1.3em;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 0.95em;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid rgba(212, 165, 116, 0.3);
+            border-radius: 8px;
+            font-size: 1em;
+            background: white;
+            color: var(--primary);
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 4px rgba(212, 165, 116, 0.1);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 16px 45px;
+            font-size: 0.95em;
+            border: 2px solid transparent;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 700;
+            font-family: 'Outfit', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: left 0.5s ease;
+        }
+
+        button:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--gold) 100%);
+            color: white;
+            box-shadow: 0 8px 20px rgba(212, 165, 116, 0.4);
+            border-color: var(--secondary);
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            transform: scale(1.05);
+            box-shadow: 0 12px 30px rgba(212, 165, 116, 0.6);
+            background: linear-gradient(135deg, var(--gold) 0%, var(--secondary) 100%);
+        }
+
+        .btn-primary:active:not(:disabled) {
+            transform: scale(0.98);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, var(--primary) 0%, #2d2d4a 100%);
+            color: var(--secondary);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            border-color: var(--secondary);
+        }
+
+        .btn-secondary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 30px rgba(212, 165, 116, 0.4);
+            background: linear-gradient(135deg, #2d2d4a 0%, var(--primary) 100%);
+        }
+
+        .btn-secondary:active {
+            transform: scale(0.98);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+        }
+
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-content {
+            background-color: var(--light);
+            padding: 50px;
+            border-radius: 16px;
+            text-align: center;
+            max-width: 550px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border-top: 4px solid var(--secondary);
+        }
+
+        .modal-content h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-size: 2em;
+            font-family: 'Cardo', serif;
+        }
+
+        .success-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+            display: inline-block;
+            animation: pulse 0.6s ease-in-out;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.8); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .modal-content p {
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 15px;
+            font-size: 1.05em;
+        }
+
+        .booking-details {
+            background: linear-gradient(135deg, rgba(212, 165, 116, 0.1) 0%, rgba(233, 69, 96, 0.1) 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 25px 0;
+            color: var(--primary);
+            font-weight: 600;
+            font-family: 'Outfit', sans-serif;
+            border-left: 4px solid var(--secondary);
+        }
+
+        .modal-content .note {
+            color: #666;
+            font-size: 0.95em;
+            margin-top: 20px;
+            line-height: 1.6;
+        }
+
+        .note-highlight {
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        .availability-info {
+            display: none;
+        }
+
+        .availability-info h3 {
+            display: none;
+        }
+
+        .status-message {
+            padding: 16px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            display: none;
+            font-weight: 600;
+            border-left: 4px solid;
+        }
+
+        .status-message.show {
+            display: block;
+        }
+
+        .status-message.error {
+            background: #fee;
+            color: #c33;
+            border-color: #c33;
+        }
+
+        /* Change Booking Button */
+        .change-booking-section {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid rgba(212, 165, 116, 0.3);
+        }
+
+        .change-booking-btn {
+            background: linear-gradient(135deg, var(--sage) 0%, #6b8b7f 100%);
+            color: white;
+            padding: 14px 35px;
+            font-size: 0.9em;
+            border: 2px solid var(--sage);
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 700;
+            font-family: 'Outfit', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .change-booking-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: left 0.5s ease;
+        }
+
+        .change-booking-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 30px rgba(122, 155, 142, 0.4);
+        }
+
+        .change-booking-btn:hover::before {
+            left: 100%;
+        }
+
+        /* Change Booking Modal */
+        .change-booking-modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            animation: fadeIn 0.3s;
+        }
+
+        .change-booking-modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .change-booking-content {
+            background-color: var(--light);
+            padding: 50px;
+            border-radius: 16px;
+            max-width: 600px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border-top: 4px solid var(--sage);
+        }
+
+        .change-booking-content h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            font-family: 'Cardo', serif;
+        }
+
+        .change-booking-content p {
+            color: #666;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .booking-change-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+
+        .booking-change-section h3 {
+            color: var(--primary);
+            font-family: 'Cardo', serif;
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .booking-change-group {
+            margin-bottom: 15px;
+        }
+
+        .booking-change-group label {
+            display: block;
+            margin-bottom: 6px;
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 0.9em;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .booking-change-group input,
+        .booking-change-group select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 2px solid rgba(212, 165, 116, 0.3);
+            border-radius: 8px;
+            font-size: 0.95em;
+            background: white;
+            color: var(--primary);
+            transition: all 0.3s;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .booking-change-group input:focus,
+        .booking-change-group select:focus {
+            outline: none;
+            border-color: var(--sage);
+            box-shadow: 0 0 0 4px rgba(122, 155, 142, 0.1);
+        }
+
+        .booking-change-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .booking-change-submit {
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--gold) 100%);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 700;
+            font-family: 'Outfit', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+
+        .booking-change-submit:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(212, 165, 116, 0.4);
+        }
+
+        .booking-change-cancel {
+            background: linear-gradient(135deg, var(--primary) 0%, #2d2d4a 100%);
+            color: var(--secondary);
+            padding: 12px 30px;
+            border: 2px solid var(--secondary);
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 700;
+            font-family: 'Outfit', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+
+        .booking-change-cancel:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Booking Limit Modal */
+        .booking-limit-modal {
+            display: none;
+            position: fixed;
+            z-index: 3000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(4px);
+            animation: fadeIn 0.3s;
+        }
+
+        .booking-limit-modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .booking-limit-content {
+            background-color: var(--light);
+            padding: 50px;
+            border-radius: 16px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+            animation: slideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border-top: 4px solid var(--accent);
+            text-align: center;
+        }
+
+        .booking-limit-content h2 {
+            color: var(--accent);
+            margin-bottom: 15px;
+            font-size: 1.8em;
+            font-family: 'Cardo', serif;
+        }
+
+        .booking-limit-content p {
+            color: #666;
+            margin-bottom: 25px;
+            line-height: 1.6;
+            font-size: 1.05em;
+        }
+
+        .booking-limit-content button {
+            background: linear-gradient(135deg, var(--primary) 0%, #2d2d4a 100%);
+            color: var(--secondary);
+            padding: 12px 40px;
+            border: 2px solid var(--secondary);
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 700;
+            font-family: 'Outfit', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+
+        .booking-limit-content button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Learner Type Selector */
+        .learner-type-selector {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            padding-bottom: 30px;
+            border-bottom: 2px solid rgba(212, 165, 116, 0.3);
+        }
+
+        .learner-option {
+            flex: 1;
+        }
+
+        .learner-option input[type="radio"] {
+            display: none;
+        }
+
+        .learner-option label {
+            display: block;
+            padding: 16px 20px;
+            background: linear-gradient(135deg, #fafaf8 0%, #f5f1e8 100%);
+            border: 2px solid rgba(212, 165, 116, 0.3);
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1em;
+            color: var(--primary);
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .learner-option label:hover {
+            border-color: var(--secondary);
+            background: rgba(212, 165, 116, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(212, 165, 116, 0.3);
+        }
+
+        .learner-option input[type="radio"]:checked + label {
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--gold) 100%);
+            color: white;
+            border-color: var(--secondary);
+            box-shadow: 0 8px 20px rgba(212, 165, 116, 0.4);
+            transform: scale(1.02);
+        }
+
+        /* Form sections */
+        .learner-forms {
+            display: none;
+        }
+
+        .learner-forms.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2.2em;
+            }
+
+            .container {
+                padding: 30px 20px;
+                margin: 30px 15px;
+            }
+
+            .intro-section h2 {
+                font-size: 1.5em;
+            }
+
+            .influences-section h2 {
+                font-size: 1.5em;
+            }
+
+            button {
+                padding: 12px 30px;
+                font-size: 0.95em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>JACOB CUNNINGHAM</h1>
+        <div class="header-accent"></div>
+        <p>GUITAR LESSONS <span class="header-price">- $25/hour</span></p>
+    </header>
+
+    <div class="container">
+
+        <div class="status-message" id="statusMessage"></div>
+
+        <!-- Booking Section -->
+        <div class="booking-section">
+            <h2 class="section-title">Book Your Lesson</h2>
+
+            <!-- Change Booking Button -->
+            <div class="change-booking-section">
+                <button class="change-booking-btn" id="changeBookingBtn">Already Booked? Change Your Booking Time/Date Here</button>
+            </div>
+
+            <div class="calendar-wrapper">
+                <!-- Calendar -->
+                <div class="calendar">
+                    <div class="calendar-header">
+                        <button id="prevMonth">&lt; PREV</button>
+                        <h3 id="monthYear"></h3>
+                        <button id="nextMonth">NEXT &gt;</button>
+                    </div>
+                    <div class="calendar-grid" id="calendarGrid"></div>
+                </div>
+
+                <!-- Time Selection -->
+                <div class="time-selection">
+                    <h3>Available Times</h3>
+                    <div class="time-grid" id="timeGrid"></div>
+                </div>
+            </div>
+
+            <!-- Learner Type Selector -->
+            <div class="learner-type-selector">
+                <div class="learner-option">
+                    <input type="radio" id="firstTime" name="learnerType" value="firstTime" checked>
+                    <label for="firstTime">First Time Booking</label>
+                </div>
+                <div class="learner-option">
+                    <input type="radio" id="returning" name="learnerType" value="returning">
+                    <label for="returning">Returning Learner</label>
+                </div>
+            </div>
+
+            <!-- First Time Booking Form -->
+            <div class="learner-forms active" id="firstTimeForm">
+                <div class="user-info">
+                    <h3>Your Information</h3>
+                    <div class="form-group">
+                        <label for="userName">Name <span style="color: var(--secondary);">*</span></label>
+                        <input type="text" id="userName" placeholder="John Doe">
+                    </div>
+                    <div class="form-group">
+                        <label for="userEmail">Email Address <span style="color: var(--secondary);">*</span></label>
+                        <input type="email" id="userEmail" placeholder="john@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="userPhone">Phone Number (Optional)</label>
+                        <input type="tel" id="userPhone" placeholder="(555) 123-4567">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Returning Learner Form -->
+            <div class="learner-forms" id="returningForm">
+                <div class="user-info">
+                    <h3>Welcome Back!</h3>
+                    <div class="form-group">
+                        <label for="returningName">Name <span style="color: var(--secondary);">*</span></label>
+                        <input type="text" id="returningName" placeholder="John Doe">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Book Button -->
+            <div class="button-group">
+                <button class="btn-primary" id="bookButton" disabled>Book Now</button>
+                <button class="btn-secondary" id="resetButton">Clear Selection</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Change Booking Modal -->
+    <div class="change-booking-modal" id="changeBookingModal">
+        <div class="change-booking-content">
+            <h2>Change Your Booking</h2>
+            <p>Enter your current booking details and select your new date and time.</p>
+
+            <div class="booking-change-grid">
+                <!-- Current Booking Section -->
+                <div class="booking-change-section">
+                    <h3>Current Booking</h3>
+
+                    <div class="booking-change-group">
+                        <label for="currentName">Name</label>
+                        <input type="text" id="currentName" placeholder="Your name">
+                    </div>
+
+                    <div class="booking-change-group">
+                        <label for="currentDate">Current Date</label>
+                        <input type="date" id="currentDate">
+                    </div>
+
+                    <div class="booking-change-group">
+                        <label for="currentTime">Current Time</label>
+                        <select id="currentTime">
+                            <option value="">Select time</option>
+                            <option value="9:00 AM">9:00 AM</option>
+                            <option value="9:30 AM">9:30 AM</option>
+                            <option value="10:00 AM">10:00 AM</option>
+                            <option value="10:30 AM">10:30 AM</option>
+                            <option value="11:00 AM">11:00 AM</option>
+                            <option value="11:30 AM">11:30 AM</option>
+                            <option value="12:00 PM">12:00 PM</option>
+                            <option value="12:30 PM">12:30 PM</option>
+                            <option value="1:00 PM">1:00 PM</option>
+                            <option value="1:30 PM">1:30 PM</option>
+                            <option value="2:00 PM">2:00 PM</option>
+                            <option value="2:30 PM">2:30 PM</option>
+                            <option value="3:00 PM">3:00 PM</option>
+                            <option value="3:30 PM">3:30 PM</option>
+                            <option value="4:00 PM">4:00 PM</option>
+                            <option value="4:30 PM">4:30 PM</option>
+                            <option value="5:00 PM">5:00 PM</option>
+                            <option value="5:30 PM">5:30 PM</option>
+                            <option value="6:00 PM">6:00 PM</option>
+                            <option value="6:30 PM">6:30 PM</option>
+                            <option value="7:00 PM">7:00 PM</option>
+                            <option value="7:30 PM">7:30 PM</option>
+                            <option value="8:00 PM">8:00 PM</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- New Booking Section -->
+                <div class="booking-change-section">
+                    <h3>New Booking</h3>
+
+                    <div class="booking-change-group">
+                        <label for="newDate">New Date</label>
+                        <input type="date" id="newDate">
+                    </div>
+
+                    <div class="booking-change-group">
+                        <label for="newTime">New Time</label>
+                        <select id="newTime">
+                            <option value="">Select time</option>
+                            <option value="9:00 AM">9:00 AM</option>
+                            <option value="9:30 AM">9:30 AM</option>
+                            <option value="10:00 AM">10:00 AM</option>
+                            <option value="10:30 AM">10:30 AM</option>
+                            <option value="11:00 AM">11:00 AM</option>
+                            <option value="11:30 AM">11:30 AM</option>
+                            <option value="12:00 PM">12:00 PM</option>
+                            <option value="12:30 PM">12:30 PM</option>
+                            <option value="1:00 PM">1:00 PM</option>
+                            <option value="1:30 PM">1:30 PM</option>
+                            <option value="2:00 PM">2:00 PM</option>
+                            <option value="2:30 PM">2:30 PM</option>
+                            <option value="3:00 PM">3:00 PM</option>
+                            <option value="3:30 PM">3:30 PM</option>
+                            <option value="4:00 PM">4:00 PM</option>
+                            <option value="4:30 PM">4:30 PM</option>
+                            <option value="5:00 PM">5:00 PM</option>
+                            <option value="5:30 PM">5:30 PM</option>
+                            <option value="6:00 PM">6:00 PM</option>
+                            <option value="6:30 PM">6:30 PM</option>
+                            <option value="7:00 PM">7:00 PM</option>
+                            <option value="7:30 PM">7:30 PM</option>
+                            <option value="8:00 PM">8:00 PM</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="booking-change-buttons">
+                <button class="booking-change-submit" id="confirmChangeBtn">Confirm Change</button>
+                <button class="booking-change-cancel" id="cancelChangeBtn">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Booking Limit Modal -->
+    <div class="booking-limit-modal" id="bookingLimitModal">
+        <div class="booking-limit-content">
+            <h2>⚠️ Booking Limit Reached</h2>
+            <p>We've detected you've already booked two lessons through this platform. To book additional lessons, please contact me directly or change an existing booking using the button below.</p>
+            <button onclick="closeBookingLimitModal()">Understood</button>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div class="modal" id="confirmationModal">
+        <div class="modal-content">
+            <div class="success-icon">♪</div>
+            <h2>Lesson Booked!</h2>
+            <p>Thank you for booking your guitar lesson.</p>
+            <div class="booking-details" id="bookingDetails"></div>
+            <p>A confirmation email has been sent to your inbox.</p>
+            <p class="note">
+                <span class="note-highlight">First time here?</span> <br>
+                Check your email for a link to complete your student profile. This helps us prepare your first lesson perfectly.
+            </p>
+            <button class="btn-primary" onclick="closeModal()" style="margin-top: 20px;">Close</button>
+        </div>
+    </div>
+
+    <script>
+        // State management
+        let state = {
+            currentMonth: new Date(),
+            selectedDate: null,
+            selectedTime: null,
+            bookedSlots: new Set(),
+            userName: '',
+            userEmail: '',
+            userPhone: '',
+            deviceFingerprint: '',
+            deviceBookingCount: 0,
+            lastSubmitTime: 0
+        };
+
+        // Time slots
+        const TIME_SLOTS = [
+            '9:00 AM', '9:30 AM', '10:00 AM', '10:30 AM', '11:00 AM', '11:30 AM',
+            '12:00 PM', '12:30 PM', '1:00 PM', '1:30 PM', '2:00 PM', '2:30 PM',
+            '3:00 PM', '3:30 PM', '4:00 PM', '4:30 PM', '5:00 PM', '5:30 PM',
+            '6:00 PM', '6:30 PM', '7:00 PM', '7:30 PM', '8:00 PM'
+        ];
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            generateDeviceFingerprint();
+            loadBookedSlots();
+            checkDeviceBookingLimit();
+            renderCalendar();
+            setupEventListeners();
+            setupLearnerTypeToggle();
+        });
+
+        function setupEventListeners() {
+            document.getElementById('prevMonth').addEventListener('click', () => {
+                state.currentMonth.setMonth(state.currentMonth.getMonth() - 1);
+                renderCalendar();
+            });
+
+            document.getElementById('nextMonth').addEventListener('click', () => {
+                state.currentMonth.setMonth(state.currentMonth.getMonth() + 1);
+                renderCalendar();
+            });
+
+            document.getElementById('bookButton').addEventListener('click', handleBooking);
+            document.getElementById('resetButton').addEventListener('click', resetSelection);
+
+            document.getElementById('userName').addEventListener('change', (e) => {
+                state.userName = e.target.value;
+            });
+
+            document.getElementById('userEmail').addEventListener('change', (e) => {
+                state.userEmail = e.target.value;
+            });
+
+            document.getElementById('userPhone').addEventListener('change', (e) => {
+                state.userPhone = e.target.value;
+            });
+
+            document.getElementById('returningName').addEventListener('change', (e) => {
+                state.userName = e.target.value;
+                updateBookButtonState();
+            });
+        }
+
+        function setupLearnerTypeToggle() {
+            const learnerOptions = document.querySelectorAll('input[name="learnerType"]');
+            learnerOptions.forEach(option => {
+                option.addEventListener('change', (e) => {
+                    const value = e.target.value;
+
+                    if (value === 'firstTime') {
+                        document.getElementById('firstTimeForm').classList.add('active');
+                        document.getElementById('returningForm').classList.remove('active');
+                        // Clear returning form
+                        document.getElementById('returningName').value = '';
+                        // Reset state for first time
+                        state.userName = '';
+                        state.userEmail = '';
+                        state.userPhone = '';
+                    } else {
+                        document.getElementById('returningForm').classList.add('active');
+                        document.getElementById('firstTimeForm').classList.remove('active');
+                        // Clear first time form
+                        document.getElementById('userName').value = '';
+                        document.getElementById('userEmail').value = '';
+                        document.getElementById('userPhone').value = '';
+                        // Reset state for returning
+                        state.userName = '';
+                        state.userEmail = '';
+                        state.userPhone = '';
+                    }
+
+                    updateBookButtonState();
+                });
+            });
+        }
+
+        function renderCalendar() {
+            const year = state.currentMonth.getFullYear();
+            const month = state.currentMonth.getMonth();
+
+            const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+                'July', 'August', 'September', 'October', 'November', 'December'];
+            document.getElementById('monthYear').textContent = `${monthNames[month]} ${year}`;
+
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            const daysInPrevMonth = new Date(year, month, 0).getDate();
+
+            const grid = document.getElementById('calendarGrid');
+            grid.innerHTML = '';
+
+            const dayHeaders = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            dayHeaders.forEach(day => {
+                const header = document.createElement('div');
+                header.className = 'day-header';
+                header.textContent = day;
+                grid.appendChild(header);
+            });
+
+            for (let i = firstDay - 1; i >= 0; i--) {
+                const day = daysInPrevMonth - i;
+                const dayEl = createDayElement(day, true);
+                grid.appendChild(dayEl);
+            }
+
+            const today = new Date();
+            for (let day = 1; day <= daysInMonth; day++) {
+                const currentDate = new Date(year, month, day);
+                const dayEl = createDayElement(day, false, currentDate);
+
+                if (currentDate.toDateString() === today.toDateString()) {
+                    dayEl.classList.add('today');
+                }
+
+                if (currentDate < today) {
+                    dayEl.classList.add('other-month');
+                } else {
+                    dayEl.addEventListener('click', () => selectDate(currentDate, dayEl));
+                }
+
+                grid.appendChild(dayEl);
+            }
+
+            const totalCells = grid.children.length - 7;
+            const remainingCells = 42 - totalCells;
+            for (let day = 1; day <= remainingCells; day++) {
+                const dayEl = createDayElement(day, true);
+                grid.appendChild(dayEl);
+            }
+        }
+
+        function createDayElement(day, isOtherMonth, date = null) {
+            const dayEl = document.createElement('div');
+            dayEl.className = 'calendar-day';
+            dayEl.textContent = day;
+
+            if (isOtherMonth) {
+                dayEl.classList.add('other-month');
+            }
+
+            return dayEl;
+        }
+
+        function selectDate(date, dayEl) {
+            document.querySelectorAll('.calendar-day.selected').forEach(el => {
+                el.classList.remove('selected');
+            });
+
+            dayEl.classList.add('selected');
+            state.selectedDate = date;
+            state.selectedTime = null;
+
+            renderTimeSlots();
+
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('selectedDateDisplay').textContent = date.toLocaleDateString('en-US', options);
+        }
+
+        function renderTimeSlots() {
+            const timeGrid = document.getElementById('timeGrid');
+            timeGrid.innerHTML = '';
+
+            if (!state.selectedDate) return;
+
+            const dateStr = state.selectedDate.toISOString().split('T')[0];
+
+            TIME_SLOTS.forEach(time => {
+                const slotId = `${dateStr}-${time}`;
+                const isBooked = state.bookedSlots.has(slotId);
+
+                const timeSlot = document.createElement('div');
+                timeSlot.className = 'time-slot';
+                timeSlot.textContent = time;
+
+                if (isBooked) {
+                    timeSlot.classList.add('booked');
+                } else {
+                    timeSlot.addEventListener('click', () => selectTime(time, timeSlot, slotId));
+                }
+
+                timeGrid.appendChild(timeSlot);
+            });
+        }
+
+        function selectTime(time, element, slotId) {
+            document.querySelectorAll('.time-slot.selected').forEach(el => {
+                el.classList.remove('selected');
+            });
+
+            element.classList.add('selected');
+            state.selectedTime = time;
+            state.selectedSlotId = slotId;
+
+            updateBookButtonState();
+        }
+
+        function updateBookButtonState() {
+            const isFirstTime = document.getElementById('firstTime').checked;
+
+            let isValid;
+            if (isFirstTime) {
+                isValid = state.userName && state.userEmail && state.selectedDate && state.selectedTime;
+            } else {
+                isValid = state.userName && state.selectedDate && state.selectedTime;
+            }
+
+            document.getElementById('bookButton').disabled = !isValid;
+        }
+
+        async function handleBooking() {
+            const isFirstTime = document.getElementById('firstTime').checked;
+
+            // Rate limiting
+            const now = Date.now();
+            if (now - state.lastSubmitTime < 3000) {
+                showStatus('Please wait a few seconds before booking again.', 'error');
+                return;
+            }
+
+            // Device booking limit check
+            if (state.deviceBookingCount >= 2) {
+                showBookingLimitModal();
+                return;
+            }
+
+            // Validation
+            if (!state.userName || !state.selectedDate || !state.selectedTime) {
+                showStatus('Please fill in all required fields and select a time slot.', 'error');
+                return;
+            }
+
+            if (isFirstTime && !state.userEmail) {
+                showStatus('Please enter your email address.', 'error');
+                return;
+            }
+
+            if (isFirstTime) {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(state.userEmail)) {
+                    showStatus('Please enter a valid email address.', 'error');
+                    return;
+                }
+            }
+
+            // Sanitize name
+            state.userName = sanitizeName(state.userName);
+
+            // Save the booking
+            state.bookedSlots.add(state.selectedSlotId);
+            saveBookedSlots();
+
+            // Increment device booking count
+            state.deviceBookingCount++;
+            saveDeviceBookingCount();
+
+            // Save booking data for instructor schedule
+            saveBookingData(state.selectedSlotId, state.userName, state.userEmail, state.userPhone, isFirstTime);
+
+            // Update last submit time
+            state.lastSubmitTime = now;
+
+            renderCalendar();
+            renderTimeSlots();
+
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const dateStr = state.selectedDate.toLocaleDateString('en-US', options);
+            const bookingDetails = `${dateStr} at ${state.selectedTime}`;
+
+            if (isFirstTime) {
+                // Redirect to questionnaire for first-time learners
+                const questionnaireUrl = `questionnaire.html?name=${encodeURIComponent(state.userName)}&email=${encodeURIComponent(state.userEmail)}&booking=${encodeURIComponent(bookingDetails)}`;
+                window.location.href = questionnaireUrl;
+            } else {
+                // Show confirmation for returning learners
+                document.getElementById('bookingDetails').innerHTML = `
+                    <strong>📅 Date & Time:</strong> ${bookingDetails}<br>
+                    <strong>🎸 Student:</strong> ${state.userName}
+                `;
+
+                showConfirmationModal();
+
+                // Delay reset so confirmation shows first
+                setTimeout(() => {
+                    resetSelection();
+                }, 100);
+            }
+        }
+
+        function showConfirmationModal() {
+            document.getElementById('confirmationModal').classList.add('show');
+        }
+
+        function closeModal() {
+            document.getElementById('confirmationModal').classList.remove('show');
+        }
+
+        function resetSelection() {
+            state.selectedDate = null;
+            state.selectedTime = null;
+            state.userName = '';
+            state.userEmail = '';
+            state.userPhone = '';
+
+            document.getElementById('userName').value = '';
+            document.getElementById('userEmail').value = '';
+            document.getElementById('userPhone').value = '';
+            document.getElementById('returningName').value = '';
+            document.getElementById('selectedDateDisplay').textContent = 'Choose a date first';
+
+            document.querySelectorAll('.calendar-day.selected').forEach(el => {
+                el.classList.remove('selected');
+            });
+
+            document.getElementById('timeGrid').innerHTML = '';
+            updateBookButtonState();
+        }
+
+        function showStatus(message, type) {
+            const statusEl = document.getElementById('statusMessage');
+            statusEl.textContent = message;
+            statusEl.className = `status-message show ${type}`;
+            setTimeout(() => {
+                statusEl.classList.remove('show');
+            }, 5000);
+        }
+
+        function loadBookedSlots() {
+            const saved = localStorage.getItem('bookedSlots');
+            if (saved) {
+                state.bookedSlots = new Set(JSON.parse(saved));
+            }
+        }
+
+        function saveBookedSlots() {
+            localStorage.setItem('bookedSlots', JSON.stringify(Array.from(state.bookedSlots)));
+        }
+
+        function saveBookingData(slotId, name, email, phone, isFirstTime) {
+            let bookingData = {};
+            const saved = localStorage.getItem('bookingData');
+            if (saved) {
+                bookingData = JSON.parse(saved);
+            }
+
+            bookingData[slotId] = {
+                name: name,
+                email: email || '',
+                phone: phone || '',
+                isFirstTime: isFirstTime
+            };
+
+            localStorage.setItem('bookingData', JSON.stringify(bookingData));
+        }
+
+        window.addEventListener('click', (event) => {
+            const modal = document.getElementById('confirmationModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+
+            const changeModal = document.getElementById('changeBookingModal');
+            if (event.target === changeModal) {
+                closeChangeBookingModal();
+            }
+        });
+
+        // Change Booking Functions
+        document.getElementById('changeBookingBtn').addEventListener('click', () => {
+            document.getElementById('changeBookingModal').classList.add('show');
+        });
+
+        document.getElementById('cancelChangeBtn').addEventListener('click', () => {
+            closeChangeBookingModal();
+        });
+
+        document.getElementById('confirmChangeBtn').addEventListener('click', () => {
+            const name = document.getElementById('currentName').value;
+            const currentDate = document.getElementById('currentDate').value;
+            const currentTime = document.getElementById('currentTime').value;
+            const newDate = document.getElementById('newDate').value;
+            const newTime = document.getElementById('newTime').value;
+
+            if (!name || !currentDate || !currentTime || !newDate || !newTime) {
+                alert('Please fill in all fields');
+                return;
+            }
+
+            // Find and remove old booking
+            const currentDateStr = new Date(currentDate).toISOString().split('T')[0];
+            const oldSlotId = `${currentDateStr}-${currentTime}`;
+
+            if (state.bookedSlots.has(oldSlotId)) {
+                state.bookedSlots.delete(oldSlotId);
+            }
+
+            // Add new booking
+            const newDateStr = new Date(newDate).toISOString().split('T')[0];
+            const newSlotId = `${newDateStr}-${newTime}`;
+            state.bookedSlots.add(newSlotId);
+
+            saveBookedSlots();
+            renderCalendar();
+
+            // Show confirmation
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const newDateFormatted = new Date(newDate).toLocaleDateString('en-US', options);
+
+            alert(`✓ Booking changed successfully!\n\nNew booking:\n${newDateFormatted} at ${newTime}`);
+
+            closeChangeBookingModal();
+
+            // Clear form
+            document.getElementById('currentName').value = '';
+            document.getElementById('currentDate').value = '';
+            document.getElementById('currentTime').value = '';
+            document.getElementById('newDate').value = '';
+            document.getElementById('newTime').value = '';
+        });
+
+        function closeChangeBookingModal() {
+            document.getElementById('changeBookingModal').classList.remove('show');
+        }
+
+        // Security & Device Management Functions
+        function generateDeviceFingerprint() {
+            let fingerprint = localStorage.getItem('deviceFingerprint');
+
+            if (!fingerprint) {
+                // Generate a unique fingerprint based on browser characteristics
+                fingerprint = 'device_' +
+                    navigator.userAgent.substring(0, 50).hashCode() + '_' +
+                    new Date().getFullYear();
+
+                localStorage.setItem('deviceFingerprint', fingerprint);
+            }
+
+            state.deviceFingerprint = fingerprint;
+        }
+
+        // Add hashCode method to String prototype for fingerprint generation
+        String.prototype.hashCode = function() {
+            let hash = 0;
+            for (let i = 0; i < this.length; i++) {
+                const char = this.charCodeAt(i);
+                hash = ((hash << 5) - hash) + char;
+                hash = hash & hash;
+            }
+            return Math.abs(hash);
+        };
+
+        function checkDeviceBookingLimit() {
+            const saved = localStorage.getItem('deviceBookingCount_' + state.deviceFingerprint);
+            state.deviceBookingCount = saved ? parseInt(saved) : 0;
+        }
+
+        function saveDeviceBookingCount() {
+            localStorage.setItem('deviceBookingCount_' + state.deviceFingerprint, state.deviceBookingCount.toString());
+        }
+
+        function showBookingLimitModal() {
+            document.getElementById('bookingLimitModal').classList.add('show');
+        }
+
+        function closeBookingLimitModal() {
+            document.getElementById('bookingLimitModal').classList.remove('show');
+        }
+
+        function sanitizeName(name) {
+            // Remove any HTML special characters
+            return name
+                .replace(/[<>]/g, '')
+                .trim()
+                .substring(0, 100);
+        }
+    </script>
+</body>
+</html>

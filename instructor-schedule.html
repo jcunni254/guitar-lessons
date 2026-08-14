@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Schedule - Jacob Cunningham Guitar Lessons</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cardo:wght@400;700&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #1a1a2e;
+            --secondary: #d4a574;
+            --accent: #e94560;
+            --light: #f5f1e8;
+            --dark: #0f0f1e;
+            --gold: #b8860b;
+            --sage: #7a9b8e;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: linear-gradient(135deg, var(--primary) 0%, #2d2d4a 50%, var(--dark) 100%);
+            min-height: 100vh;
+            color: #333;
+            overflow-x: hidden;
+            padding: 20px;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 20% 50%, rgba(212, 165, 116, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(233, 69, 96, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, #1f1f35 100%);
+            color: var(--light);
+            padding: 60px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 3px solid var(--secondary);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            margin-bottom: 40px;
+            border-radius: 12px;
+        }
+
+        header h1 {
+            font-family: 'Cardo', serif;
+            font-size: 3.5em;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.4);
+            font-weight: 800;
+            position: relative;
+            z-index: 1;
+        }
+
+        header p {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.1em;
+            opacity: 0.9;
+            font-weight: 300;
+            letter-spacing: 3px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header-accent {
+            display: inline-block;
+            width: 60px;
+            height: 3px;
+            background: var(--secondary);
+            margin: 20px auto;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 0 10px rgba(212, 165, 116, 0.5);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: var(--light);
+            border-radius: 16px;
+            padding: 50px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 10;
+        }
+
+        .section-title {
+            font-family: 'Cardo', serif;
+            color: var(--primary);
+            font-size: 2em;
+            margin-bottom: 35px;
+            text-align: center;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 3px;
+            background: var(--secondary);
+        }
+
+        /* Calendar */
+        .calendar-wrapper {
+            background: linear-gradient(135deg, #fafaf8 0%, #f5f1e8 100%);
+            padding: 40px;
+            border-radius: 12px;
+            border: 2px solid rgba(212, 165, 116, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid rgba(212, 165, 116, 0.3);
+        }
+
+        .calendar-header button {
+            background: var(--primary);
+            color: var(--secondary);
+            border: 2px solid var(--secondary);
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 700;
+            transition: all 0.3s;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .calendar-header button:hover {
+            background: var(--secondary);
+            color: var(--primary);
+            transform: scale(1.05);
+        }
+
+        .calendar-header h3 {
+            color: var(--primary);
+            flex: 1;
+            text-align: center;
+            font-size: 1.5em;
+            font-family: 'Cardo', serif;
+            font-weight: 700;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .day-header {
+            text-align: center;
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 0.95em;
+            padding: 12px 0;
+            font-family: 'Outfit', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .calendar-day {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            border: 2px solid rgba(212, 165, 116, 0.3);
+            background: white;
+            color: var(--primary);
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            font-family: 'Outfit', sans-serif;
+            position: relative;
+            flex-direction: column;
+            font-size: 0.9em;
+        }
+
+        .calendar-day:hover:not(.other-month):not(.empty) {
+            background: var(--secondary);
+            color: white;
+            border-color: var(--secondary);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(212, 165, 116, 0.4);
+        }
+
+        .calendar-day.has-booking {
+            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+            border-color: var(--secondary);
+            box-shadow: 0 4px 12px rgba(212, 165, 116, 0.3);
+        }
+
+        .calendar-day.has-booking:hover {
+            background: var(--secondary);
+            color: white;
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(212, 165, 116, 0.4);
+        }
+
+        .booking-indicator {
+            width: 6px;
+            height: 6px;
+            background: var(--secondary);
+            border-radius: 50%;
+            margin-top: 4px;
+        }
+
+        .calendar-day.other-month {
+            color: #ccc;
+            cursor: default;
+            background: rgba(0, 0, 0, 0.02);
+        }
+
+        .calendar-day.today {
+            border: 2px solid var(--accent);
+            background: rgba(233, 69, 96, 0.1);
+        }
+
+        /* Day Details Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            animation: fadeIn 0.3s;
+        }
+
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-content {
+            background-color: var(--light);
+            padding: 50px;
+            border-radius: 16px;
+            max-width: 700px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border-top: 4px solid var(--secondary);
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-content h2 {
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-size: 1.8em;
+            font-family: 'Cardo', serif;
+        }
+
+        .modal-content p {
+            color: #666;
+            margin-bottom: 20px;
+            font-size: 0.95em;
+        }
+
+        .lessons-list {
+            margin-top: 25px;
+        }
+
+        .lesson-card {
+            background: linear-gradient(135deg, #fafaf8 0%, #f5f1e8 100%);
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 4px solid var(--secondary);
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .lesson-card:hover {
+            transform: translateX(4px);
+            box-shadow: 0 6px 15px rgba(212, 165, 116, 0.3);
+        }
+
+        .lesson-time {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            color: var(--secondary);
+            font-size: 1.1em;
+            margin-bottom: 8px;
+        }
+
+        .lesson-name {
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .lesson-type {
+            color: #888;
+            font-size: 0.9em;
+        }
+
+        /* Lesson Details */
+        .lesson-details {
+            display: none;
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 2px solid rgba(212, 165, 116, 0.3);
+        }
+
+        .lesson-details.show {
+            display: block;
+            animation: slideIn 0.3s ease;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(212, 165, 116, 0.2);
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .detail-value {
+            color: #666;
+        }
+
+        .close-btn {
+            background: linear-gradient(135deg, var(--primary) 0%, #2d2d4a 100%);
+            color: var(--secondary);
+            padding: 12px 30px;
+            border: 2px solid var(--secondary);
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 700;
+            font-family: 'Outfit', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            margin-top: 25px;
+        }
+
+        .close-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .no-bookings {
+            text-align: center;
+            color: #999;
+            padding: 20px;
+            font-style: italic;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2.2em;
+            }
+
+            .container {
+                padding: 30px 20px;
+            }
+
+            .modal-content {
+                padding: 35px 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>JACOB CUNNINGHAM</h1>
+        <div class="header-accent"></div>
+        <p>MY SCHEDULE</p>
+        <p style="font-size: 0.85em; color: #999; margin-top: 15px;">🔒 Instructor Only</p>
+    </header>
+
+    <div id="loginContainer" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 5000; align-items: center; justify-content: center;">
+        <div style="background: white; padding: 50px; border-radius: 16px; text-align: center; max-width: 400px; box-shadow: 0 20px 60px rgba(0,0,0,0.3);">
+            <h2 style="color: #1a1a2e; margin-bottom: 20px; font-family: 'Cardo', serif; font-size: 1.8em;">🔐 Secure Access Required</h2>
+            <p style="color: #666; margin-bottom: 25px;">Enter your instructor password to access your schedule.</p>
+            <input type="password" id="passwordInput" placeholder="Enter password" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 1em; margin-bottom: 15px; font-family: 'Outfit', sans-serif;">
+            <button id="loginBtn" style="width: 100%; padding: 12px; background: linear-gradient(135deg, #d4a574 0%, #b8860b 100%); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 700; font-size: 1em; font-family: 'Outfit', sans-serif; text-transform: uppercase;">Login</button>
+            <p id="loginError" style="color: red; margin-top: 15px; display: none; font-weight: 600;"></p>
+        </div>
+    </div>
+
+    <div class="container" id="dashboardContainer" style="display: none;">
+        <h2 class="section-title">📅 Lesson Schedule</h2>
+
+        <div class="calendar-wrapper">
+            <div class="calendar-header">
+                <button id="prevMonth">&lt; PREV</button>
+                <h3 id="monthYear"></h3>
+                <button id="nextMonth">NEXT &gt;</button>
+            </div>
+            <div class="calendar-grid" id="calendarGrid"></div>
+        </div>
+    </div>
+
+    <!-- Day Details Modal -->
+    <div class="modal" id="dayModal">
+        <div class="modal-content">
+            <h2 id="dayTitle"></h2>
+            <p id="daySubtitle"></p>
+
+            <div class="lessons-list" id="lessonsList"></div>
+
+            <button class="close-btn" onclick="closeDayModal()">Close</button>
+        </div>
+    </div>
+
+    <script>
+        // SECURITY: Change this password before deploying!
+        const INSTRUCTOR_PASSWORD = 'YourSecurePassword123!';
+
+        let state = {
+            currentMonth: new Date(),
+            bookings: {},
+            isAuthenticated: false
+        };
+
+        const TIME_SLOTS = [
+            '9:00 AM', '9:30 AM', '10:00 AM', '10:30 AM', '11:00 AM', '11:30 AM',
+            '12:00 PM', '12:30 PM', '1:00 PM', '1:30 PM', '2:00 PM', '2:30 PM',
+            '3:00 PM', '3:30 PM', '4:00 PM', '4:30 PM', '5:00 PM', '5:30 PM',
+            '6:00 PM', '6:30 PM', '7:00 PM', '7:30 PM', '8:00 PM'
+        ];
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check if authenticated via session
+            const sessionAuth = sessionStorage.getItem('instructorAuthenticated');
+            if (sessionAuth === 'true') {
+                state.isAuthenticated = true;
+                showDashboard();
+                loadBookings();
+                renderCalendar();
+                setupEventListeners();
+                // Refresh every 5 seconds
+                setInterval(loadBookings, 5000);
+            } else {
+                showLoginScreen();
+                setupLoginListener();
+            }
+        });
+
+        function showLoginScreen() {
+            document.getElementById('loginContainer').style.display = 'flex';
+            document.getElementById('dashboardContainer').style.display = 'none';
+        }
+
+        function showDashboard() {
+            document.getElementById('loginContainer').style.display = 'none';
+            document.getElementById('dashboardContainer').style.display = 'block';
+        }
+
+        function setupLoginListener() {
+            const passwordInput = document.getElementById('passwordInput');
+            const loginBtn = document.getElementById('loginBtn');
+            const loginError = document.getElementById('loginError');
+
+            loginBtn.addEventListener('click', () => {
+                const password = passwordInput.value;
+
+                if (password === INSTRUCTOR_PASSWORD) {
+                    sessionStorage.setItem('instructorAuthenticated', 'true');
+                    state.isAuthenticated = true;
+                    showDashboard();
+                    loadBookings();
+                    renderCalendar();
+                    setupEventListeners();
+                    setInterval(loadBookings, 5000);
+                } else {
+                    loginError.textContent = '❌ Incorrect password. Try again.';
+                    loginError.style.display = 'block';
+                    passwordInput.value = '';
+                    passwordInput.focus();
+                }
+            });
+
+            passwordInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    loginBtn.click();
+                }
+            });
+        }
+
+        function setupEventListeners() {
+            document.getElementById('prevMonth').addEventListener('click', () => {
+                state.currentMonth.setMonth(state.currentMonth.getMonth() - 1);
+                renderCalendar();
+            });
+
+            document.getElementById('nextMonth').addEventListener('click', () => {
+                state.currentMonth.setMonth(state.currentMonth.getMonth() + 1);
+                renderCalendar();
+            });
+
+            // Close modal when clicking outside
+            window.addEventListener('click', (event) => {
+                const modal = document.getElementById('dayModal');
+                if (event.target === modal) {
+                    closeDayModal();
+                }
+            });
+        }
+
+        function renderCalendar() {
+            const year = state.currentMonth.getFullYear();
+            const month = state.currentMonth.getMonth();
+
+            const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+                'July', 'August', 'September', 'October', 'November', 'December'];
+            document.getElementById('monthYear').textContent = `${monthNames[month]} ${year}`;
+
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            const daysInPrevMonth = new Date(year, month, 0).getDate();
+
+            const grid = document.getElementById('calendarGrid');
+            grid.innerHTML = '';
+
+            // Day headers
+            const dayHeaders = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            dayHeaders.forEach(day => {
+                const header = document.createElement('div');
+                header.className = 'day-header';
+                header.textContent = day;
+                grid.appendChild(header);
+            });
+
+            // Previous month days
+            for (let i = firstDay - 1; i >= 0; i--) {
+                const day = daysInPrevMonth - i;
+                const dayEl = createDayElement(day, true);
+                grid.appendChild(dayEl);
+            }
+
+            // Current month days
+            const today = new Date();
+            for (let day = 1; day <= daysInMonth; day++) {
+                const currentDate = new Date(year, month, day);
+                const dayEl = createDayElement(day, false, currentDate);
+
+                if (currentDate.toDateString() === today.toDateString()) {
+                    dayEl.classList.add('today');
+                }
+
+                const dateStr = currentDate.toISOString().split('T')[0];
+                if (state.bookings[dateStr] && state.bookings[dateStr].length > 0) {
+                    dayEl.classList.add('has-booking');
+                    const indicator = document.createElement('div');
+                    indicator.className = 'booking-indicator';
+                    dayEl.appendChild(indicator);
+                }
+
+                dayEl.addEventListener('click', () => {
+                    if (!dayEl.classList.contains('other-month')) {
+                        showDayDetails(currentDate);
+                    }
+                });
+
+                grid.appendChild(dayEl);
+            }
+
+            // Next month days
+            const totalCells = grid.children.length - 7;
+            const remainingCells = 42 - totalCells;
+            for (let day = 1; day <= remainingCells; day++) {
+                const dayEl = createDayElement(day, true);
+                grid.appendChild(dayEl);
+            }
+        }
+
+        function createDayElement(day, isOtherMonth) {
+            const dayEl = document.createElement('div');
+            dayEl.className = 'calendar-day';
+            dayEl.textContent = day;
+
+            if (isOtherMonth) {
+                dayEl.classList.add('other-month');
+            }
+
+            return dayEl;
+        }
+
+        function showDayDetails(date) {
+            const dateStr = date.toISOString().split('T')[0];
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const dateFormatted = date.toLocaleDateString('en-US', options);
+
+            document.getElementById('dayTitle').textContent = dateFormatted;
+
+            const bookings = state.bookings[dateStr] || [];
+
+            if (bookings.length === 0) {
+                document.getElementById('daySubtitle').textContent = 'No lessons scheduled for this day';
+                document.getElementById('lessonsList').innerHTML = '<div class="no-bookings">No bookings</div>';
+            } else {
+                document.getElementById('daySubtitle').textContent = `${bookings.length} lesson${bookings.length > 1 ? 's' : ''} scheduled`;
+                renderLessonsList(bookings);
+            }
+
+            document.getElementById('dayModal').classList.add('show');
+        }
+
+        function renderLessonsList(bookings) {
+            const lessonsList = document.getElementById('lessonsList');
+            lessonsList.innerHTML = '';
+
+            // Sort bookings by time
+            const sortedBookings = bookings.sort((a, b) => {
+                return TIME_SLOTS.indexOf(a.time) - TIME_SLOTS.indexOf(b.time);
+            });
+
+            sortedBookings.forEach((booking, index) => {
+                const lessonCard = document.createElement('div');
+                lessonCard.className = 'lesson-card';
+                lessonCard.innerHTML = `
+                    <div class="lesson-time">${booking.time}</div>
+                    <div class="lesson-name">${booking.name}</div>
+                    <div class="lesson-type">${booking.isFirstTime ? 'First Time Learner' : 'Returning Learner'}</div>
+                `;
+
+                lessonCard.addEventListener('click', () => {
+                    showLessonDetails(lessonCard, booking);
+                });
+
+                lessonsList.appendChild(lessonCard);
+            });
+        }
+
+        function showLessonDetails(cardElement, booking) {
+            // Remove previous details if any
+            const previousDetails = document.querySelector('.lesson-details.show');
+            if (previousDetails) {
+                previousDetails.remove();
+            }
+
+            const details = document.createElement('div');
+            details.className = 'lesson-details show';
+
+            let detailsHTML = `
+                <div class="detail-row">
+                    <span class="detail-label">Name</span>
+                    <span class="detail-value">${booking.name}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Time</span>
+                    <span class="detail-value">${booking.time}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Type</span>
+                    <span class="detail-value">${booking.isFirstTime ? 'First Time Learner' : 'Returning Learner'}</span>
+                </div>
+            `;
+
+            if (booking.email) {
+                detailsHTML += `
+                    <div class="detail-row">
+                        <span class="detail-label">Email</span>
+                        <span class="detail-value">${booking.email}</span>
+                    </div>
+                `;
+            }
+
+            if (booking.phone) {
+                detailsHTML += `
+                    <div class="detail-row">
+                        <span class="detail-label">Phone</span>
+                        <span class="detail-value">${booking.phone}</span>
+                    </div>
+                `;
+            }
+
+            details.innerHTML = detailsHTML;
+
+            // Insert after the modal-content
+            const modalContent = document.querySelector('.modal-content');
+            const existingDetails = modalContent.querySelector('.lesson-details');
+            if (existingDetails) {
+                existingDetails.remove();
+            }
+
+            const lessonsList = modalContent.querySelector('.lessons-list');
+            lessonsList.parentNode.insertBefore(details, lessonsList.nextSibling);
+        }
+
+        function closeDayModal() {
+            document.getElementById('dayModal').classList.remove('show');
+        }
+
+        function loadBookings() {
+            try {
+                const bookedSlots = localStorage.getItem('bookedSlots');
+                const bookingData = localStorage.getItem('bookingData');
+
+                state.bookings = {};
+
+                if (bookedSlots) {
+                    const slots = JSON.parse(bookedSlots);
+
+                    // Get booking details from localStorage
+                    let bookingDetails = {};
+                    if (bookingData) {
+                        bookingDetails = JSON.parse(bookingData);
+                    }
+
+                    slots.forEach(slot => {
+                        const [dateStr, time] = slot.split('-');
+                        const [year, month, day] = dateStr.split('-');
+
+                        if (!state.bookings[dateStr]) {
+                            state.bookings[dateStr] = [];
+                        }
+
+                        // Get booking details from bookingData if available
+                        const booking = bookingDetails[slot] || {
+                            name: 'Booked',
+                            time: time,
+                            isFirstTime: false
+                        };
+
+                        state.bookings[dateStr].push(booking);
+                    });
+                }
+
+                renderCalendar();
+            } catch (error) {
+                console.error('Error loading bookings:', error);
+            }
+        }
+    </script>
+</body>
+</html>

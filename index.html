@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jacob Cunningham Guitar Lessons</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #1a3a4a 0%, #2d5f7a 100%);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            border-radius: 12px;
+            margin-bottom: 40px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        header p {
+            font-size: 1.1em;
+            opacity: 0.95;
+            font-weight: 300;
+        }
+
+        /* Container */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Booking Section */
+        .booking-section {
+            margin-top: 30px;
+        }
+
+        .booking-section h2 {
+            color: #2d5f7a;
+            margin-bottom: 30px;
+            font-size: 1.8em;
+        }
+
+        /* Calendar */
+        .calendar-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .calendar-wrapper {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .calendar {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #e0e6ed;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .calendar-header button {
+            background: #2d5f7a;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: background 0.3s;
+        }
+
+        .calendar-header button:hover {
+            background: #1a3a4a;
+        }
+
+        .calendar-header h3 {
+            color: #2d5f7a;
+            flex: 1;
+            text-align: center;
+            font-size: 1.1em;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .day-header {
+            text-align: center;
+            font-weight: bold;
+            color: #555;
+            font-size: 0.85em;
+            padding: 8px 0;
+        }
+
+        .calendar-day {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            border: 2px solid transparent;
+            background: white;
+            color: #333;
+            transition: all 0.3s;
+        }
+
+        .calendar-day:hover:not(.other-month):not(.booked) {
+            background: #e8f0f7;
+            border-color: #2d5f7a;
+        }
+
+        .calendar-day.selected {
+            background: #2d5f7a;
+            color: white;
+            border-color: #1a3a4a;
+        }
+
+        .calendar-day.other-month {
+            color: #ccc;
+            cursor: default;
+        }
+
+        .calendar-day.booked {
+            background: #e8e8e8;
+            color: #999;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .calendar-day.today {
+            font-weight: bold;
+            text-decoration: underline;
+            text-decoration-color: #dc3545;
+        }
+
+        /* Time Selection */
+        .time-selection {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #e0e6ed;
+        }
+
+        .time-selection h3 {
+            color: #2d5f7a;
+            margin-bottom: 15px;
+        }
+
+        .time-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+            gap: 10px;
+        }
+
+        .time-slot {
+            padding: 12px;
+            border: 2px solid #e0e6ed;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            background: white;
+            transition: all 0.3s;
+            font-size: 0.9em;
+            font-weight: 500;
+        }
+
+        .time-slot:hover:not(.booked) {
+            border-color: #2d5f7a;
+            background: #e8f0f7;
+        }
+
+        .time-slot.selected {
+            background: #2d5f7a;
+            color: white;
+            border-color: #1a3a4a;
+        }
+
+        .time-slot.booked {
+            background: #e8e8e8;
+            color: #999;
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+
+        /* User Info Section */
+        .user-info {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #e0e6ed;
+            margin-bottom: 20px;
+        }
+
+        .user-info h3 {
+            color: #2d5f7a;
+            margin-bottom: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1em;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #2d5f7a;
+            box-shadow: 0 0 0 3px rgba(45, 95, 122, 0.1);
+        }
+
+        /* Buttons */
+        .button-group {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        button {
+            padding: 12px 30px;
+            font-size: 1em;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #2d5f7a 0%, #1a3a4a 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(45, 95, 122, 0.3);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: #e0e6ed;
+            color: #555;
+        }
+
+        .btn-secondary:hover {
+            background: #d0d6dd;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            animation: fadeIn 0.3s;
+        }
+
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 40px;
+            border-radius: 12px;
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.2);
+            animation: slideIn 0.4s;
+        }
+
+        .modal-content h2 {
+            color: #2d5f7a;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+
+        .modal-content p {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 10px;
+            font-size: 1.05em;
+        }
+
+        .booking-details {
+            background: #f0f5fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            color: #2d5f7a;
+            font-weight: 500;
+        }
+
+        .modal-content .note {
+            color: #666;
+            font-size: 0.95em;
+            margin-top: 15px;
+            line-height: 1.5;
+        }
+
+        .note-highlight {
+            color: #2d5f7a;
+            font-weight: 600;
+        }
+
+        .modal button {
+            margin-top: 20px;
+        }
+
+        /* Status Messages */
+        .status-message {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .status-message.show {
+            display: block;
+        }
+
+        .status-message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .status-message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        /* Availability info */
+        .availability-info {
+            background: #e8f0f7;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            color: #2d5f7a;
+            border-left: 4px solid #2d5f7a;
+        }
+
+        .availability-info h3 {
+            margin-bottom: 8px;
+        }
+
+        .availability-info p {
+            margin: 5px 0;
+            font-size: 0.95em;
+        }
+
+        .availability-legend {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            font-size: 0.9em;
+            margin-top: 10px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .legend-dot {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            border: 2px solid #e0e6ed;
+        }
+
+        .legend-dot.available {
+            background: white;
+            border-color: #2d5f7a;
+        }
+
+        .legend-dot.booked {
+            background: #e8e8e8;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Jacob Cunningham</h1>
+        <p>Guitar Lessons</p>
+    </header>
+
+    <div class="container">
+        <div class="status-message" id="statusMessage"></div>
+
+        <div class="availability-info">
+            <h3>📅 How to Book</h3>
+            <p>Select a date below to see available time slots. Click on any available time to book your lesson!</p>
+            <div class="availability-legend">
+                <div class="legend-item">
+                    <div class="legend-dot available"></div>
+                    <span>Available</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-dot booked"></div>
+                    <span>Booked</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="booking-section">
+            <h2>Book Your Lesson</h2>
+
+            <div class="calendar-wrapper">
+                <!-- Calendar -->
+                <div class="calendar">
+                    <div class="calendar-header">
+                        <button id="prevMonth">&lt;</button>
+                        <h3 id="monthYear"></h3>
+                        <button id="nextMonth">&gt;</button>
+                    </div>
+                    <div class="calendar-grid" id="calendarGrid"></div>
+                </div>
+
+                <!-- Time Selection -->
+                <div class="time-selection">
+                    <h3>Select Time</h3>
+                    <p id="selectedDateDisplay" style="color: #666; margin-bottom: 15px; font-size: 0.95em;">Choose a date first</p>
+                    <div class="time-grid" id="timeGrid"></div>
+                </div>
+            </div>
+
+            <!-- User Information -->
+            <div class="user-info">
+                <h3>Your Information</h3>
+                <div class="form-group">
+                    <label for="userName">Full Name *</label>
+                    <input type="text" id="userName" placeholder="John Doe">
+                </div>
+                <div class="form-group">
+                    <label for="userEmail">Email Address *</label>
+                    <input type="email" id="userEmail" placeholder="john@example.com">
+                </div>
+                <div class="form-group">
+                    <label for="userPhone">Phone Number (Optional)</label>
+                    <input type="tel" id="userPhone" placeholder="(555) 123-4567">
+                </div>
+            </div>
+
+            <!-- Book Button -->
+            <div class="button-group">
+                <button class="btn-primary" id="bookButton" disabled>Book Now</button>
+                <button class="btn-secondary" id="resetButton">Clear Selection</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div class="modal" id="confirmationModal">
+        <div class="modal-content">
+            <h2>✓ Thank You!</h2>
+            <p>Your lesson has been booked successfully!</p>
+            <div class="booking-details" id="bookingDetails"></div>
+            <p>A confirmation email has been sent to your email address.</p>
+            <p class="note">
+                <span class="note-highlight">First time booking?</span> <br>
+                Make sure to click the link at the bottom of the confirmation email to fill out the questionnaire!
+            </p>
+            <button class="btn-primary" onclick="closeModal()">Close</button>
+        </div>
+    </div>
+
+    <script>
+        // State management
+        let state = {
+            currentMonth: new Date(),
+            selectedDate: null,
+            selectedTime: null,
+            bookedSlots: new Set(),
+            userName: '',
+            userEmail: '',
+            userPhone: ''
+        };
+
+        // Time slots (business hours)
+        const TIME_SLOTS = [
+            '9:00 AM', '9:30 AM', '10:00 AM', '10:30 AM', '11:00 AM', '11:30 AM',
+            '12:00 PM', '12:30 PM', '1:00 PM', '1:30 PM', '2:00 PM', '2:30 PM',
+            '3:00 PM', '3:30 PM', '4:00 PM', '4:30 PM', '5:00 PM', '5:30 PM',
+            '6:00 PM', '6:30 PM', '7:00 PM', '7:30 PM', '8:00 PM'
+        ];
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            loadBookedSlots();
+            renderCalendar();
+            setupEventListeners();
+        });
+
+        function setupEventListeners() {
+            document.getElementById('prevMonth').addEventListener('click', () => {
+                state.currentMonth.setMonth(state.currentMonth.getMonth() - 1);
+                renderCalendar();
+            });
+
+            document.getElementById('nextMonth').addEventListener('click', () => {
+                state.currentMonth.setMonth(state.currentMonth.getMonth() + 1);
+                renderCalendar();
+            });
+
+            document.getElementById('bookButton').addEventListener('click', handleBooking);
+            document.getElementById('resetButton').addEventListener('click', resetSelection);
+
+            document.getElementById('userName').addEventListener('change', (e) => {
+                state.userName = e.target.value;
+            });
+
+            document.getElementById('userEmail').addEventListener('change', (e) => {
+                state.userEmail = e.target.value;
+            });
+
+            document.getElementById('userPhone').addEventListener('change', (e) => {
+                state.userPhone = e.target.value;
+            });
+        }
+
+        function renderCalendar() {
+            const year = state.currentMonth.getFullYear();
+            const month = state.currentMonth.getMonth();
+
+            // Update header
+            const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+                'July', 'August', 'September', 'October', 'November', 'December'];
+            document.getElementById('monthYear').textContent = `${monthNames[month]} ${year}`;
+
+            // Get first day and number of days
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            const daysInPrevMonth = new Date(year, month, 0).getDate();
+
+            // Clear grid
+            const grid = document.getElementById('calendarGrid');
+            grid.innerHTML = '';
+
+            // Add day headers
+            const dayHeaders = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            dayHeaders.forEach(day => {
+                const header = document.createElement('div');
+                header.className = 'day-header';
+                header.textContent = day;
+                grid.appendChild(header);
+            });
+
+            // Add days from previous month
+            for (let i = firstDay - 1; i >= 0; i--) {
+                const day = daysInPrevMonth - i;
+                const dayEl = createDayElement(day, true);
+                grid.appendChild(dayEl);
+            }
+
+            // Add days of current month
+            const today = new Date();
+            for (let day = 1; day <= daysInMonth; day++) {
+                const currentDate = new Date(year, month, day);
+                const dayEl = createDayElement(day, false, currentDate);
+
+                // Mark today
+                if (currentDate.toDateString() === today.toDateString()) {
+                    dayEl.classList.add('today');
+                }
+
+                // Disable past dates
+                if (currentDate < today) {
+                    dayEl.classList.add('other-month');
+                    dayEl.style.cursor = 'not-allowed';
+                } else {
+                    dayEl.addEventListener('click', () => selectDate(currentDate, dayEl));
+                }
+
+                grid.appendChild(dayEl);
+            }
+
+            // Add days from next month
+            const totalCells = grid.children.length - 7; // subtract day headers
+            const remainingCells = 42 - totalCells;
+            for (let day = 1; day <= remainingCells; day++) {
+                const dayEl = createDayElement(day, true);
+                grid.appendChild(dayEl);
+            }
+        }
+
+        function createDayElement(day, isOtherMonth, date = null) {
+            const dayEl = document.createElement('div');
+            dayEl.className = 'calendar-day';
+            dayEl.textContent = day;
+
+            if (isOtherMonth) {
+                dayEl.classList.add('other-month');
+            } else if (date) {
+                // Check if date has fully booked slots
+                const dateStr = date.toISOString().split('T')[0];
+                const dayBookings = Array.from(state.bookedSlots).filter(slot => slot.startsWith(dateStr));
+                if (dayBookings.length === TIME_SLOTS.length) {
+                    dayEl.classList.add('booked');
+                }
+            }
+
+            return dayEl;
+        }
+
+        function selectDate(date, dayEl) {
+            // Remove previous selection
+            document.querySelectorAll('.calendar-day.selected').forEach(el => {
+                el.classList.remove('selected');
+            });
+
+            // Add selection
+            dayEl.classList.add('selected');
+            state.selectedDate = date;
+            state.selectedTime = null;
+
+            // Update time grid
+            renderTimeSlots();
+
+            // Update date display
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('selectedDateDisplay').textContent = date.toLocaleDateString('en-US', options);
+        }
+
+        function renderTimeSlots() {
+            const timeGrid = document.getElementById('timeGrid');
+            timeGrid.innerHTML = '';
+
+            if (!state.selectedDate) return;
+
+            const dateStr = state.selectedDate.toISOString().split('T')[0];
+
+            TIME_SLOTS.forEach(time => {
+                const slotId = `${dateStr}-${time}`;
+                const isBooked = state.bookedSlots.has(slotId);
+
+                const timeSlot = document.createElement('div');
+                timeSlot.className = 'time-slot';
+                timeSlot.textContent = time;
+
+                if (isBooked) {
+                    timeSlot.classList.add('booked');
+                } else {
+                    timeSlot.addEventListener('click', () => selectTime(time, timeSlot, slotId));
+                }
+
+                timeGrid.appendChild(timeSlot);
+            });
+        }
+
+        function selectTime(time, element, slotId) {
+            // Remove previous selection
+            document.querySelectorAll('.time-slot.selected').forEach(el => {
+                el.classList.remove('selected');
+            });
+
+            // Add selection
+            element.classList.add('selected');
+            state.selectedTime = time;
+            state.selectedSlotId = slotId;
+
+            // Enable book button
+            updateBookButtonState();
+        }
+
+        function updateBookButtonState() {
+            const isValid = state.userName && state.userEmail && state.selectedDate && state.selectedTime;
+            document.getElementById('bookButton').disabled = !isValid;
+        }
+
+        async function handleBooking() {
+            if (!state.userName || !state.userEmail || !state.selectedDate || !state.selectedTime) {
+                showStatus('Please fill in all required fields and select a time slot.', 'error');
+                return;
+            }
+
+            // Validate email
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(state.userEmail)) {
+                showStatus('Please enter a valid email address.', 'error');
+                return;
+            }
+
+            // Add to booked slots
+            state.bookedSlots.add(state.selectedSlotId);
+            saveBookedSlots();
+
+            // Update UI
+            renderCalendar();
+            renderTimeSlots();
+
+            // Format booking details
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const dateStr = state.selectedDate.toLocaleDateString('en-US', options);
+            const bookingDetails = `${dateStr} at ${state.selectedTime}`;
+
+            // Show confirmation
+            document.getElementById('bookingDetails').innerHTML = `
+                <strong>Date & Time:</strong> ${bookingDetails}<br>
+                <strong>Booked for:</strong> ${state.userName}
+            `;
+
+            // Send confirmation email (in real implementation, this would call your backend)
+            sendConfirmationEmail(state.userName, state.userEmail, bookingDetails);
+
+            // Show modal
+            showConfirmationModal();
+
+            // Reset form
+            resetSelection();
+        }
+
+        function sendConfirmationEmail(name, email, bookingDetails) {
+            // In a real implementation, you would send this to your backend
+            // Example: fetch('/api/send-email', { method: 'POST', body: JSON.stringify(...) })
+
+            console.log('Sending confirmation email to:', email);
+            console.log('Booking details:', bookingDetails);
+
+            // For now, we'll show it was sent
+            const questionnairLink = `${window.location.origin}/questionnaire.html?email=${encodeURIComponent(email)}&booking=${encodeURIComponent(bookingDetails)}`;
+
+            console.log('Questionnaire link:', questionnairLink);
+        }
+
+        function showConfirmationModal() {
+            document.getElementById('confirmationModal').classList.add('show');
+        }
+
+        function closeModal() {
+            document.getElementById('confirmationModal').classList.remove('show');
+        }
+
+        function resetSelection() {
+            state.selectedDate = null;
+            state.selectedTime = null;
+            state.userName = '';
+            state.userEmail = '';
+            state.userPhone = '';
+
+            document.getElementById('userName').value = '';
+            document.getElementById('userEmail').value = '';
+            document.getElementById('userPhone').value = '';
+            document.getElementById('selectedDateDisplay').textContent = 'Choose a date first';
+
+            document.querySelectorAll('.calendar-day.selected').forEach(el => {
+                el.classList.remove('selected');
+            });
+
+            document.getElementById('timeGrid').innerHTML = '';
+            updateBookButtonState();
+        }
+
+        function showStatus(message, type) {
+            const statusEl = document.getElementById('statusMessage');
+            statusEl.textContent = message;
+            statusEl.className = `status-message show ${type}`;
+            setTimeout(() => {
+                statusEl.classList.remove('show');
+            }, 5000);
+        }
+
+        function loadBookedSlots() {
+            const saved = localStorage.getItem('bookedSlots');
+            if (saved) {
+                state.bookedSlots = new Set(JSON.parse(saved));
+            }
+        }
+
+        function saveBookedSlots() {
+            localStorage.setItem('bookedSlots', JSON.stringify(Array.from(state.bookedSlots)));
+        }
+
+        // Close modal when clicking outside
+        window.addEventListener('click', (event) => {
+            const modal = document.getElementById('confirmationModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>

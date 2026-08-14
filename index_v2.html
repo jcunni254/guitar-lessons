@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jacob Cunningham Guitar Lessons</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Poppins:wght@300;400;600;700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #1a1a2e;
+            --secondary: #d4a574;
+            --accent: #e94560;
+            --light: #f5f1e8;
+            --dark: #0f0f1e;
+            --gold: #b8860b;
+            --sage: #7a9b8e;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--primary) 0%, #2d2d4a 50%, var(--dark) 100%);
+            min-height: 100vh;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* Decorative Background Elements */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 20% 50%, rgba(212, 165, 116, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(233, 69, 96, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Header with Artistic Touch */
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, #1f1f35 100%);
+            color: var(--light);
+            padding: 60px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 3px solid var(--secondary);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        header::before {
+            content: '♪ ♫';
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 3em;
+            opacity: 0.1;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        header::after {
+            content: '♬';
+            position: absolute;
+            bottom: 10px;
+            right: 30px;
+            font-size: 2em;
+            opacity: 0.08;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateX(-50%) translateY(0px); }
+            50% { transform: translateX(-50%) translateY(-20px); }
+        }
+
+        header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5em;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.4);
+            font-weight: 800;
+            position: relative;
+            z-index: 1;
+        }
+
+        header p {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 1.1em;
+            opacity: 0.9;
+            font-weight: 300;
+            letter-spacing: 3px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header-accent {
+            display: inline-block;
+            width: 60px;
+            height: 3px;
+            background: var(--secondary);
+            margin: 20px auto;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 0 10px rgba(212, 165, 116, 0.5);
+        }
+
+        .tagline {
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.95em;
+            color: var(--secondary);
+            margin-top: 15px;
+            position: relative;
+            z-index: 1;
+            font-style: italic;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1000px;
+            margin: 50px auto;
+            background: var(--light);
+            border-radius: 16px;
+            padding: 50px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Intro Section with Guitar Vibes */
+        .intro-section {
+            text-align: center;
+            margin-bottom: 50px;
+            padding-bottom: 30px;
+            border-bottom: 2px solid rgba(212, 165, 116, 0.3);
+        }
+
+        .intro-section h2 {
+            font-family: 'Playfair Display', serif;
+            color: var(--primary);
+            font-size: 2em;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .intro-section p {
+            color: #666;
+            font-size: 1.05em;
+            line-height: 1.8;
+            max-width: 600px;
+            margin: 0 auto 20px;
+        }
+
+        .music-styles {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .style-badge {
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--gold) 100%);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-size: 0.9em;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(212, 165, 116, 0.3);
+        }
+
+        /* Booking Section */
+        .booking-section {
+            margin-top: 40px;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            color: var(--primary);
+            font-size: 2em;
+            margin-bottom: 35px;
+            text-align: center;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 3px;
+            background: var(--secondary);
+            border-radius: 2px;
+        }
+
+        /* Calendar Wrapper */
+        .calendar-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        @media (max-width: 900px) {
+            .calendar-wrapper {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+        }
+
+        .calendar, .time-selection {
+            background: linear-gradient(135deg, #fafaf8 0%, #f5f1e8 100%);
+            padding: 30px;
+            border-radius: 12px;
+            border: 2px solid rgba(212, 165, 116, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(212, 165, 116, 0.3);
+        }
+
+        .calendar-header button {
+            background: var(--primary);
+            color: var(--secondary);
+            border: 2px solid var(--secondary);
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 700;
+            transition: all 0.3s;
+            font-family: 'Roboto Mono', monospace;
+        }
+
+        .calendar-header button:hover {
+            background: var(--secondary);
+            color: var(--primary);
+            transform: scale(1.05);
+        }
+
+        .calendar-header h3 {
+            color: var(--primary);
+            flex: 1;
+            text-align: center;
+            font-size: 1.3em;
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .day-header {
+            text-align: center;
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 0.9em;
+            padding: 12px 0;
+            font-family: 'Roboto Mono', monospace;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .calendar-day {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            border: 2px solid rgba(212, 165, 116, 0.3);
+            background: white;
+            color: var(--primary);
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .calendar-day:hover:not(.other-month):not(.booked) {
+            background: var(--secondary);
+            color: white;
+            border-color: var(--secondary);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(212, 165, 116, 0.4);
+        }
+
+        .calendar-day.selected {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            color: white;
+            border-color: var(--accent);
+            box-shadow: 0 8px 25px rgba(233, 69, 96, 0.4);
+            transform: scale(1.05);
+        }
+
+        .calendar-day.other-month {
+            color: #ccc;
+            cursor: default;
+            background: rgba(0, 0, 0, 0.02);
+        }
+
+        .calendar-day.booked {
+            background: linear-gradient(135deg, #d3d3d3 0%, #c0c0c0 100%);
+            color: #888;
+            cursor: not-allowed;
+            opacity: 0.6;
+            border-color: #999;
+        }
+
+        .calendar-day.today {
+            font-weight: bold;
+            border: 2px solid var(--accent);
+            background: rgba(233, 69, 96, 0.1);
+        }
+
+        /* Time Selection */
+        .time-selection h3 {
+            color: var(--primary);
+            margin-bottom: 12px;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3em;
+        }
+
+        #selectedDateDisplay {
+            color: var(--secondary);
+            margin-bottom: 20px;
+            font-size: 1em;
+            font-weight: 600;
+            font-family: 'Roboto Mono', monospace;
+        }
+
+        .time-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(85px, 1fr));
+            gap: 12px;
+        }
+
+        .time-slot {
+            padding: 14px;
+            border: 2px solid rgba(212, 165, 116, 0.3);
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            background: white;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            font-size: 0.9em;
+            font-weight: 600;
+            color: var(--primary);
+            font-family: 'Roboto Mono', monospace;
+        }
+
+        .time-slot:hover:not(.booked) {
+            border-color: var(--secondary);
+            background: rgba(212, 165, 116, 0.1);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(212, 165, 116, 0.3);
+        }
+
+        .time-slot.selected {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            color: white;
+            border-color: var(--accent);
+            box-shadow: 0 8px 25px rgba(233, 69, 96, 0.4);
+            transform: scale(1.05);
+        }
+
+        .time-slot.booked {
+            background: #e8e8e8;
+            color: #999;
+            cursor: not-allowed;
+            opacity: 0.5;
+            border-color: #999;
+        }
+
+        /* User Info Section */
+        .user-info {
+            background: linear-gradient(135deg, #fafaf8 0%, #f5f1e8 100%);
+            padding: 30px;
+            border-radius: 12px;
+            border: 2px solid rgba(212, 165, 116, 0.2);
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .user-info h3 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3em;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--primary);
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.95em;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid rgba(212, 165, 116, 0.3);
+            border-radius: 8px;
+            font-size: 1em;
+            font-family: 'Poppins', sans-serif;
+            background: white;
+            color: var(--primary);
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 4px rgba(212, 165, 116, 0.1);
+            background: rgba(212, 165, 116, 0.02);
+        }
+
+        /* Buttons */
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 14px 40px;
+            font-size: 1em;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            font-family: 'Poppins', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            color: white;
+            box-shadow: 0 10px 30px rgba(233, 69, 96, 0.3);
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 40px rgba(233, 69, 96, 0.5);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--gold) 100%);
+            color: white;
+            box-shadow: 0 10px 30px rgba(212, 165, 116, 0.3);
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 40px rgba(212, 165, 116, 0.5);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            animation: fadeIn 0.3s;
+        }
+
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-content {
+            background-color: var(--light);
+            padding: 50px;
+            border-radius: 16px;
+            text-align: center;
+            max-width: 550px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border-top: 4px solid var(--secondary);
+        }
+
+        .modal-content h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-size: 2em;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .success-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+            display: inline-block;
+            animation: pulse 0.6s ease-in-out;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.8); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .modal-content p {
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 15px;
+            font-size: 1.05em;
+        }
+
+        .booking-details {
+            background: linear-gradient(135deg, rgba(212, 165, 116, 0.1) 0%, rgba(233, 69, 96, 0.1) 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 25px 0;
+            color: var(--primary);
+            font-weight: 600;
+            font-family: 'Roboto Mono', monospace;
+            border-left: 4px solid var(--secondary);
+        }
+
+        .modal-content .note {
+            color: #666;
+            font-size: 0.95em;
+            margin-top: 20px;
+            line-height: 1.6;
+        }
+
+        .note-highlight {
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        /* Availability Info */
+        .availability-info {
+            background: linear-gradient(135deg, rgba(122, 155, 142, 0.1) 0%, rgba(212, 165, 116, 0.1) 100%);
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            color: var(--primary);
+            border-left: 4px solid var(--sage);
+        }
+
+        .availability-info h3 {
+            margin-bottom: 12px;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1em;
+        }
+
+        .availability-info p {
+            margin: 8px 0;
+            font-size: 0.95em;
+        }
+
+        .availability-legend {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            font-size: 0.9em;
+            margin-top: 15px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 500;
+        }
+
+        .legend-dot {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            border: 2px solid rgba(212, 165, 116, 0.3);
+        }
+
+        .legend-dot.available {
+            background: white;
+            border-color: var(--secondary);
+        }
+
+        .legend-dot.booked {
+            background: #d3d3d3;
+            border-color: #999;
+        }
+
+        /* Status Messages */
+        .status-message {
+            padding: 16px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            display: none;
+            font-weight: 600;
+            border-left: 4px solid;
+        }
+
+        .status-message.show {
+            display: block;
+        }
+
+        .status-message.error {
+            background: #fee;
+            color: #c33;
+            border-color: #c33;
+        }
+
+        .status-message.success {
+            background: #efe;
+            color: #3c3;
+            border-color: #3c3;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2.2em;
+            }
+
+            .container {
+                padding: 30px 20px;
+                margin: 30px 15px;
+            }
+
+            .modal-content {
+                padding: 35px 25px;
+            }
+
+            button {
+                padding: 12px 30px;
+                font-size: 0.95em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>JACOB CUNNINGHAM</h1>
+        <div class="header-accent"></div>
+        <p>GUITAR LESSONS</p>
+        <p class="tagline">Rock • Blues • Soul</p>
+    </header>
+
+    <div class="container">
+        <!-- Intro Section -->
+        <div class="intro-section">
+            <h2>Master the Art of Guitar</h2>
+            <p>Professional guitar instruction specializing in the timeless sounds that shaped rock and blues music. From classic riffs to modern techniques, unlock your potential.</p>
+            <div class="music-styles">
+                <span class="style-badge">🎸 Rock</span>
+                <span class="style-badge">🎵 Blues</span>
+                <span class="style-badge">✨ Soul</span>
+            </div>
+        </div>
+
+        <div class="status-message" id="statusMessage"></div>
+
+        <div class="availability-info">
+            <h3>📅 How to Book Your Lesson</h3>
+            <p>Select your preferred date and time. All slots shown are available for booking—pick what works best for you.</p>
+            <div class="availability-legend">
+                <div class="legend-item">
+                    <div class="legend-dot available"></div>
+                    <span>Available</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-dot booked"></div>
+                    <span>Booked</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="booking-section">
+            <h2 class="section-title">Book Your Lesson</h2>
+
+            <div class="calendar-wrapper">
+                <!-- Calendar -->
+                <div class="calendar">
+                    <div class="calendar-header">
+                        <button id="prevMonth">&lt; PREV</button>
+                        <h3 id="monthYear"></h3>
+                        <button id="nextMonth">NEXT &gt;</button>
+                    </div>
+                    <div class="calendar-grid" id="calendarGrid"></div>
+                </div>
+
+                <!-- Time Selection -->
+                <div class="time-selection">
+                    <h3>Select Time</h3>
+                    <p id="selectedDateDisplay">Choose a date first</p>
+                    <div class="time-grid" id="timeGrid"></div>
+                </div>
+            </div>
+
+            <!-- User Information -->
+            <div class="user-info">
+                <h3>Your Information</h3>
+                <div class="form-group">
+                    <label for="userName">Full Name <span style="color: var(--accent);">*</span></label>
+                    <input type="text" id="userName" placeholder="John Doe">
+                </div>
+                <div class="form-group">
+                    <label for="userEmail">Email Address <span style="color: var(--accent);">*</span></label>
+                    <input type="email" id="userEmail" placeholder="john@example.com">
+                </div>
+                <div class="form-group">
+                    <label for="userPhone">Phone Number (Optional)</label>
+                    <input type="tel" id="userPhone" placeholder="(555) 123-4567">
+                </div>
+            </div>
+
+            <!-- Book Button -->
+            <div class="button-group">
+                <button class="btn-primary" id="bookButton" disabled>Book Now</button>
+                <button class="btn-secondary" id="resetButton">Clear Selection</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div class="modal" id="confirmationModal">
+        <div class="modal-content">
+            <div class="success-icon">♪</div>
+            <h2>Lesson Booked!</h2>
+            <p>Thank you for booking your guitar lesson.</p>
+            <div class="booking-details" id="bookingDetails"></div>
+            <p>A confirmation email has been sent to your inbox.</p>
+            <p class="note">
+                <span class="note-highlight">First time here?</span> <br>
+                Check your email for a link to complete your student profile. This helps us prepare your first lesson perfectly.
+            </p>
+            <button class="btn-primary" onclick="closeModal()" style="margin-top: 20px;">Close</button>
+        </div>
+    </div>
+
+    <script>
+        // State management
+        let state = {
+            currentMonth: new Date(),
+            selectedDate: null,
+            selectedTime: null,
+            bookedSlots: new Set(),
+            userName: '',
+            userEmail: '',
+            userPhone: ''
+        };
+
+        // Time slots
+        const TIME_SLOTS = [
+            '9:00 AM', '9:30 AM', '10:00 AM', '10:30 AM', '11:00 AM', '11:30 AM',
+            '12:00 PM', '12:30 PM', '1:00 PM', '1:30 PM', '2:00 PM', '2:30 PM',
+            '3:00 PM', '3:30 PM', '4:00 PM', '4:30 PM', '5:00 PM', '5:30 PM',
+            '6:00 PM', '6:30 PM', '7:00 PM', '7:30 PM', '8:00 PM'
+        ];
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            loadBookedSlots();
+            renderCalendar();
+            setupEventListeners();
+        });
+
+        function setupEventListeners() {
+            document.getElementById('prevMonth').addEventListener('click', () => {
+                state.currentMonth.setMonth(state.currentMonth.getMonth() - 1);
+                renderCalendar();
+            });
+
+            document.getElementById('nextMonth').addEventListener('click', () => {
+                state.currentMonth.setMonth(state.currentMonth.getMonth() + 1);
+                renderCalendar();
+            });
+
+            document.getElementById('bookButton').addEventListener('click', handleBooking);
+            document.getElementById('resetButton').addEventListener('click', resetSelection);
+
+            document.getElementById('userName').addEventListener('change', (e) => {
+                state.userName = e.target.value;
+            });
+
+            document.getElementById('userEmail').addEventListener('change', (e) => {
+                state.userEmail = e.target.value;
+            });
+
+            document.getElementById('userPhone').addEventListener('change', (e) => {
+                state.userPhone = e.target.value;
+            });
+        }
+
+        function renderCalendar() {
+            const year = state.currentMonth.getFullYear();
+            const month = state.currentMonth.getMonth();
+
+            const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+                'July', 'August', 'September', 'October', 'November', 'December'];
+            document.getElementById('monthYear').textContent = `${monthNames[month]} ${year}`;
+
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            const daysInPrevMonth = new Date(year, month, 0).getDate();
+
+            const grid = document.getElementById('calendarGrid');
+            grid.innerHTML = '';
+
+            const dayHeaders = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            dayHeaders.forEach(day => {
+                const header = document.createElement('div');
+                header.className = 'day-header';
+                header.textContent = day;
+                grid.appendChild(header);
+            });
+
+            for (let i = firstDay - 1; i >= 0; i--) {
+                const day = daysInPrevMonth - i;
+                const dayEl = createDayElement(day, true);
+                grid.appendChild(dayEl);
+            }
+
+            const today = new Date();
+            for (let day = 1; day <= daysInMonth; day++) {
+                const currentDate = new Date(year, month, day);
+                const dayEl = createDayElement(day, false, currentDate);
+
+                if (currentDate.toDateString() === today.toDateString()) {
+                    dayEl.classList.add('today');
+                }
+
+                if (currentDate < today) {
+                    dayEl.classList.add('other-month');
+                    dayEl.style.cursor = 'not-allowed';
+                } else {
+                    dayEl.addEventListener('click', () => selectDate(currentDate, dayEl));
+                }
+
+                grid.appendChild(dayEl);
+            }
+
+            const totalCells = grid.children.length - 7;
+            const remainingCells = 42 - totalCells;
+            for (let day = 1; day <= remainingCells; day++) {
+                const dayEl = createDayElement(day, true);
+                grid.appendChild(dayEl);
+            }
+        }
+
+        function createDayElement(day, isOtherMonth, date = null) {
+            const dayEl = document.createElement('div');
+            dayEl.className = 'calendar-day';
+            dayEl.textContent = day;
+
+            if (isOtherMonth) {
+                dayEl.classList.add('other-month');
+            } else if (date) {
+                const dateStr = date.toISOString().split('T')[0];
+                const dayBookings = Array.from(state.bookedSlots).filter(slot => slot.startsWith(dateStr));
+                if (dayBookings.length === TIME_SLOTS.length) {
+                    dayEl.classList.add('booked');
+                }
+            }
+
+            return dayEl;
+        }
+
+        function selectDate(date, dayEl) {
+            document.querySelectorAll('.calendar-day.selected').forEach(el => {
+                el.classList.remove('selected');
+            });
+
+            dayEl.classList.add('selected');
+            state.selectedDate = date;
+            state.selectedTime = null;
+
+            renderTimeSlots();
+
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('selectedDateDisplay').textContent = date.toLocaleDateString('en-US', options);
+        }
+
+        function renderTimeSlots() {
+            const timeGrid = document.getElementById('timeGrid');
+            timeGrid.innerHTML = '';
+
+            if (!state.selectedDate) return;
+
+            const dateStr = state.selectedDate.toISOString().split('T')[0];
+
+            TIME_SLOTS.forEach(time => {
+                const slotId = `${dateStr}-${time}`;
+                const isBooked = state.bookedSlots.has(slotId);
+
+                const timeSlot = document.createElement('div');
+                timeSlot.className = 'time-slot';
+                timeSlot.textContent = time;
+
+                if (isBooked) {
+                    timeSlot.classList.add('booked');
+                } else {
+                    timeSlot.addEventListener('click', () => selectTime(time, timeSlot, slotId));
+                }
+
+                timeGrid.appendChild(timeSlot);
+            });
+        }
+
+        function selectTime(time, element, slotId) {
+            document.querySelectorAll('.time-slot.selected').forEach(el => {
+                el.classList.remove('selected');
+            });
+
+            element.classList.add('selected');
+            state.selectedTime = time;
+            state.selectedSlotId = slotId;
+
+            updateBookButtonState();
+        }
+
+        function updateBookButtonState() {
+            const isValid = state.userName && state.userEmail && state.selectedDate && state.selectedTime;
+            document.getElementById('bookButton').disabled = !isValid;
+        }
+
+        async function handleBooking() {
+            if (!state.userName || !state.userEmail || !state.selectedDate || !state.selectedTime) {
+                showStatus('Please fill in all required fields and select a time slot.', 'error');
+                return;
+            }
+
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(state.userEmail)) {
+                showStatus('Please enter a valid email address.', 'error');
+                return;
+            }
+
+            state.bookedSlots.add(state.selectedSlotId);
+            saveBookedSlots();
+
+            renderCalendar();
+            renderTimeSlots();
+
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const dateStr = state.selectedDate.toLocaleDateString('en-US', options);
+            const bookingDetails = `${dateStr} at ${state.selectedTime}`;
+
+            document.getElementById('bookingDetails').innerHTML = `
+                <strong>📅 Date & Time:</strong> ${bookingDetails}<br>
+                <strong>🎸 Student:</strong> ${state.userName}
+            `;
+
+            sendConfirmationEmail(state.userName, state.userEmail, bookingDetails);
+
+            showConfirmationModal();
+
+            resetSelection();
+        }
+
+        function sendConfirmationEmail(name, email, bookingDetails) {
+            console.log('Sending confirmation email to:', email);
+            console.log('Booking details:', bookingDetails);
+
+            const questionnairLink = `${window.location.origin}/questionnaire.html?email=${encodeURIComponent(email)}&booking=${encodeURIComponent(bookingDetails)}`;
+            console.log('Questionnaire link:', questionnairLink);
+        }
+
+        function showConfirmationModal() {
+            document.getElementById('confirmationModal').classList.add('show');
+        }
+
+        function closeModal() {
+            document.getElementById('confirmationModal').classList.remove('show');
+        }
+
+        function resetSelection() {
+            state.selectedDate = null;
+            state.selectedTime = null;
+            state.userName = '';
+            state.userEmail = '';
+            state.userPhone = '';
+
+            document.getElementById('userName').value = '';
+            document.getElementById('userEmail').value = '';
+            document.getElementById('userPhone').value = '';
+            document.getElementById('selectedDateDisplay').textContent = 'Choose a date first';
+
+            document.querySelectorAll('.calendar-day.selected').forEach(el => {
+                el.classList.remove('selected');
+            });
+
+            document.getElementById('timeGrid').innerHTML = '';
+            updateBookButtonState();
+        }
+
+        function showStatus(message, type) {
+            const statusEl = document.getElementById('statusMessage');
+            statusEl.textContent = message;
+            statusEl.className = `status-message show ${type}`;
+            setTimeout(() => {
+                statusEl.classList.remove('show');
+            }, 5000);
+        }
+
+        function loadBookedSlots() {
+            const saved = localStorage.getItem('bookedSlots');
+            if (saved) {
+                state.bookedSlots = new Set(JSON.parse(saved));
+            }
+        }
+
+        function saveBookedSlots() {
+            localStorage.setItem('bookedSlots', JSON.stringify(Array.from(state.bookedSlots)));
+        }
+
+        window.addEventListener('click', (event) => {
+            const modal = document.getElementById('confirmationModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>

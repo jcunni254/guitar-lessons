@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Questionnaire - Jacob Cunningham Guitar Lessons</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #1a3a4a 0%, #2d5f7a 100%);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            border-radius: 12px;
+            margin-bottom: 40px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        header p {
+            font-size: 1.1em;
+            opacity: 0.95;
+            font-weight: 300;
+        }
+
+        /* Container */
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.1);
+        }
+
+        .questionnaire-title {
+            color: #2d5f7a;
+            margin-bottom: 10px;
+            font-size: 1.8em;
+        }
+
+        .questionnaire-subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1em;
+        }
+
+        .form-section {
+            margin-bottom: 30px;
+        }
+
+        .form-section h2 {
+            color: #2d5f7a;
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e0e6ed;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 500;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="number"],
+        input[type="date"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1em;
+            font-family: inherit;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #2d5f7a;
+            box-shadow: 0 0 0 3px rgba(45, 95, 122, 0.1);
+        }
+
+        .radio-group,
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .radio-item,
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        input[type="radio"],
+        input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: #2d5f7a;
+        }
+
+        .radio-item label,
+        .checkbox-item label {
+            margin-bottom: 0;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            flex: 1;
+        }
+
+        .required {
+            color: #dc3545;
+        }
+
+        /* Buttons */
+        .button-group {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        button {
+            padding: 12px 30px;
+            font-size: 1em;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #2d5f7a 0%, #1a3a4a 100%);
+            color: white;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(45, 95, 122, 0.3);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: #e0e6ed;
+            color: #555;
+        }
+
+        .btn-secondary:hover {
+            background: #d0d6dd;
+        }
+
+        /* Status Messages */
+        .status-message {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .status-message.show {
+            display: block;
+        }
+
+        .status-message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .status-message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        /* Success Screen */
+        .success-screen {
+            display: none;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .success-screen.show {
+            display: block;
+        }
+
+        .success-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+        }
+
+        .success-screen h2 {
+            color: #2d5f7a;
+            margin-bottom: 15px;
+            font-size: 1.8em;
+        }
+
+        .success-screen p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .next-steps {
+            background: #e8f0f7;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: left;
+            color: #2d5f7a;
+        }
+
+        .next-steps h3 {
+            margin-bottom: 10px;
+        }
+
+        .next-steps ul {
+            margin-left: 20px;
+        }
+
+        .next-steps li {
+            margin-bottom: 8px;
+        }
+
+        .home-button {
+            display: inline-block;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 1.8em;
+            }
+
+            .container {
+                padding: 20px;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Jacob Cunningham</h1>
+        <p>Guitar Lessons</p>
+    </header>
+
+    <div class="container">
+        <div id="formScreen">
+            <h2 class="questionnaire-title">Thank You for Booking!</h2>
+            <p class="questionnaire-subtitle">Please answer a few questions about yourself so we can hit the ground running!</p>
+
+            <div class="status-message" id="statusMessage"></div>
+
+            <form id="questionnaireForm">
+                <!-- Personal Information Section -->
+                <div class="form-section">
+                    <h2>Personal Information</h2>
+
+                    <div class="form-group">
+                        <label for="fullName">Full Name <span class="required">*</span></label>
+                        <input type="text" id="fullName" name="fullName" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email Address <span class="required">*</span></label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="age">Age <span class="required">*</span></label>
+                        <input type="number" id="age" name="age" min="1" max="120" required>
+                    </div>
+                </div>
+
+                <!-- Guitar Experience Section -->
+                <div class="form-section">
+                    <h2>Guitar Experience</h2>
+
+                    <div class="form-group">
+                        <label>Have you played guitar before? <span class="required">*</span></label>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" id="beginner" name="experience" value="beginner" required>
+                                <label for="beginner">No, I'm a complete beginner</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="some" name="experience" value="some">
+                                <label for="some">Yes, I have some experience (less than 2 years)</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="intermediate" name="experience" value="intermediate">
+                                <label for="intermediate">Yes, I play intermediate level</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="advanced" name="experience" value="advanced">
+                                <label for="advanced">Yes, I'm advanced</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="yearsPlaying">How many years have you been playing? (Optional)</label>
+                        <input type="number" id="yearsPlaying" name="yearsPlaying" min="0" step="0.5">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Do you own a guitar? <span class="required">*</span></label>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" id="ownYes" name="ownGuitar" value="yes" required>
+                                <label for="ownYes">Yes</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="ownNo" name="ownGuitar" value="no">
+                                <label for="ownNo">No, I need to get one</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="ownBorrow" name="ownGuitar" value="borrow">
+                                <label for="ownBorrow">I can borrow one</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="guitarType">What type of guitar do you have/want? (Optional)</label>
+                        <select id="guitarType" name="guitarType">
+                            <option value="">-- Select --</option>
+                            <option value="acoustic">Acoustic</option>
+                            <option value="electric">Electric</option>
+                            <option value="classical">Classical</option>
+                            <option value="unsure">Not sure yet</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Goals & Interests Section -->
+                <div class="form-section">
+                    <h2>Goals & Interests</h2>
+
+                    <div class="form-group">
+                        <label>What are your main goals? <span class="required">*</span></label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="goal1" name="goals" value="basics">
+                                <label for="goal1">Learn the basics</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="goal2" name="goals" value="songs">
+                                <label for="goal2">Learn to play favorite songs</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="goal3" name="goals" value="technique">
+                                <label for="goal3">Improve technique & theory</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="goal4" name="goals" value="improvisation">
+                                <label for="goal4">Learn improvisation</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="goal5" name="goals" value="performance">
+                                <label for="goal5">Perform in front of others</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="favoriteGenre">What's your favorite music genre? (Optional)</label>
+                        <input type="text" id="favoriteGenre" name="favoriteGenre" placeholder="e.g., Rock, Blues, Jazz, Pop">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="favoriteArtists">Favorite artists or songs you'd like to learn? (Optional)</label>
+                        <textarea id="favoriteArtists" name="favoriteArtists" placeholder="List some artists or songs..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Practice & Availability Section -->
+                <div class="form-section">
+                    <h2>Practice & Schedule</h2>
+
+                    <div class="form-group">
+                        <label>How much can you practice per week? <span class="required">*</span></label>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" id="practice1" name="practice" value="less1" required>
+                                <label for="practice1">Less than 1 hour</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="practice2" name="practice" value="1-3">
+                                <label for="practice2">1-3 hours</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="practice3" name="practice" value="3-5">
+                                <label for="practice3">3-5 hours</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="practice4" name="practice" value="5plus">
+                                <label for="practice4">5+ hours</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="additionalNotes">Anything else I should know? (Optional)</label>
+                        <textarea id="additionalNotes" name="additionalNotes" placeholder="Any injuries, concerns, or special requests..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Submit Buttons -->
+                <div class="button-group">
+                    <button type="submit" class="btn-primary">Submit Questionnaire</button>
+                    <button type="reset" class="btn-secondary">Clear Form</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Success Screen -->
+        <div id="successScreen" class="success-screen">
+            <div class="success-icon">✓</div>
+            <h2>Thank You!</h2>
+            <p>Your questionnaire has been submitted successfully.</p>
+            <p>Jacob has been notified and will review your information before your first lesson.</p>
+
+            <div class="next-steps">
+                <h3>What's Next?</h3>
+                <ul>
+                    <li>Jacob will use your responses to prepare for your first lesson</li>
+                    <li>Make sure you have a guitar ready (or let us know if you need help)</li>
+                    <li>We'll see you at your scheduled lesson time</li>
+                    <li>If you have any questions, feel free to reach out</li>
+                </ul>
+            </div>
+
+            <a href="index.html" class="btn-primary home-button">Back to Home</a>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('questionnaireForm');
+        const statusMessage = document.getElementById('statusMessage');
+        const formScreen = document.getElementById('formScreen');
+        const successScreen = document.getElementById('successScreen');
+
+        // Pre-fill data from URL parameters if available
+        document.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            const name = params.get('name');
+            const email = params.get('email');
+
+            if (name) {
+                document.getElementById('fullName').value = decodeURIComponent(name);
+            }
+            if (email) {
+                document.getElementById('email').value = decodeURIComponent(email);
+            }
+        });
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            // Validate required fields
+            if (!validateForm()) {
+                return;
+            }
+
+            // Collect form data
+            const formData = new FormData(form);
+            const data = {
+                fullName: formData.get('fullName'),
+                email: formData.get('email'),
+                phone: formData.get('phone'),
+                age: formData.get('age'),
+                experience: formData.get('experience'),
+                yearsPlaying: formData.get('yearsPlaying'),
+                ownGuitar: formData.get('ownGuitar'),
+                guitarType: formData.get('guitarType'),
+                goals: formData.getAll('goals'),
+                favoriteGenre: formData.get('favoriteGenre'),
+                favoriteArtists: formData.get('favoriteArtists'),
+                practice: formData.get('practice'),
+                additionalNotes: formData.get('additionalNotes'),
+                submittedAt: new Date().toISOString()
+            };
+
+            // Save to localStorage (in real app, send to backend)
+            saveQuestionnaire(data);
+
+            // Show success screen
+            formScreen.style.display = 'none';
+            successScreen.classList.add('show');
+
+            // Scroll to top
+            window.scrollTo(0, 0);
+        });
+
+        function validateForm() {
+            const required = [
+                { id: 'fullName', name: 'Full Name' },
+                { id: 'email', name: 'Email' },
+                { id: 'age', name: 'Age' },
+                { id: 'experience', type: 'radio', name: 'Experience' },
+                { id: 'ownGuitar', type: 'radio', name: 'Guitar Ownership' },
+                { id: 'practice', type: 'radio', name: 'Practice Time' }
+            ];
+
+            for (let field of required) {
+                if (field.type === 'radio') {
+                    if (!document.querySelector(`input[name="${field.id}"]:checked`)) {
+                        showStatus(`Please select an option for "${field.name}"`, 'error');
+                        return false;
+                    }
+                } else {
+                    const input = document.getElementById(field.id);
+                    if (!input.value.trim()) {
+                        showStatus(`Please fill in "${field.name}"`, 'error');
+                        return false;
+                    }
+                }
+            }
+
+            // Validate email format
+            const email = document.getElementById('email').value;
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                showStatus('Please enter a valid email address', 'error');
+                return false;
+            }
+
+            // Validate at least one goal selected
+            const goalsChecked = document.querySelectorAll('input[name="goals"]:checked').length;
+            if (goalsChecked === 0) {
+                showStatus('Please select at least one goal', 'error');
+                return false;
+            }
+
+            return true;
+        }
+
+        function showStatus(message, type) {
+            statusMessage.textContent = message;
+            statusMessage.className = `status-message show ${type}`;
+            statusMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            setTimeout(() => {
+                statusMessage.classList.remove('show');
+            }, 5000);
+        }
+
+        function saveQuestionnaire(data) {
+            // Save to localStorage
+            const questionnaires = JSON.parse(localStorage.getItem('questionnaires') || '[]');
+            questionnaires.push(data);
+            localStorage.setItem('questionnaires', JSON.stringify(questionnaires));
+
+            // In a real application, you would send this to your backend:
+            // fetch('/api/questionnaire', {
+            //     method: 'POST',
+            //     headers: { 'Content-Type': 'application/json' },
+            //     body: JSON.stringify(data)
+            // });
+
+            console.log('Questionnaire saved:', data);
+        }
+
+        // Form reset button clears success message if shown
+        document.querySelector('button[type="reset"]').addEventListener('click', () => {
+            statusMessage.classList.remove('show');
+        });
+    </script>
+</body>
+</html>
