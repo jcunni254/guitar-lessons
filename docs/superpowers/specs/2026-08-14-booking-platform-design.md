@@ -50,7 +50,7 @@ Everything below was confirmed by reading the code and running the server, not i
 | Scheduler | Cal.com free tier | Unlimited event types, intake questions, embed, Stripe-ready |
 | Payments | **None at launch** | First lesson is a free consultation; money handled in person |
 | Homepage | `index_artistic.html` | Chosen as the real design |
-| Lesson format | **Both in-person and online** | Two Cal.com event types |
+| Lesson format | **Online only (video)** | Changed 2026-08-14; simplifies setup and removes the address requirement |
 | Booking UI | Themed inline embed only | Simplest thing that works; minimum maintenance |
 | Hosting | Render **Static Site** (free) | CDN-served, no spin-down, $0 |
 
@@ -128,11 +128,11 @@ Note that "Already Booked? Change Your Booking Time/Date Here" goes away — Cal
 
 1. Visitor loads the static page from Render's CDN.
 2. Cal.com's embed script loads and renders availability, in **the visitor's own timezone**.
-3. Visitor picks in-person or online, then a slot.
+3. Visitor picks a lesson length (30 or 60 minutes), then a slot.
 4. Visitor fills name, email, and the intake questions (skill level, goals, guitar type). First-timers see extra questions; returning students do not.
 5. Cal.com writes the booking atomically — no double-booking is possible.
 6. Cal.com emails the visitor a confirmation with reschedule/cancel links, and emails Jacob a notification.
-7. The lesson appears on Jacob's Google Calendar. For online lessons, a Cal Video link is generated and included automatically.
+7. The lesson appears on Jacob's Google Calendar, with a Cal Video link generated and included automatically for both parties.
 8. Cal.com sends an automated reminder before the lesson.
 
 ---
@@ -197,8 +197,8 @@ Verified 2026-08-14 against `https://api.cal.com/v2/slots` — both return real 
 
 These require account access and cannot be delegated:
 
-1. **Set locations on both event types (launch blocker).** Neither has a location configured, so in-person students receive no address. On each event type: Location → "In Person" + address → **+** → "Cal Video" → Save. With more than one location, the attendee chooses format, which satisfies the "both, student picks" decision without needing four event types.
-2. **Reconsider availability.** Weekdays 08:00–16:00 excludes most working adults and all school-age students. Likely the single biggest limiter on bookings.
+1. **Set the location to Cal Video on both event types (launch blocker).** Neither has a location configured, so a booking currently tells the student nothing about how to attend. On each event type: Location → **Cal Video** → Save. Cal.com then generates and emails a meeting link automatically with each booking. No address is needed now that lessons are online only.
+2. **Reconsider availability.** Weekdays 08:00–16:00 excludes most working adults and all school-age students. Likely the single biggest limiter on bookings — and now that lessons are virtual, evening slots cost nothing but a change in the availability settings.
 3. **Set a price for the 30-minute lesson.** The site header advertises `$25/hour`; the 30-minute rate is currently undefined.
 4. **Add a description to each event type** — what the lesson covers, what to bring.
 5. **Add booking questions** for first-time students (skill level, goals, guitar type).

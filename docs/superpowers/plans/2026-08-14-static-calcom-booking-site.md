@@ -726,4 +726,4 @@ Tracked in the spec, sections 9 and 10:
 - **Payments.** Deferred by decision; enable in Cal.com later without touching the site.
 - **The custom calendar grid fed by the public slots API.** ~150 lines resting on an endpoint with open bug reports, versus ~15 that essentially cannot break.
 - **Bio, photos, lesson descriptions.** The likeliest cause of lost bookings, deferred to keep the look unchanged. Recommended as the first post-launch work.
-- **Cal.com account configuration** — setting locations on both event types (a launch blocker for in-person lessons), widening the weekday-only 08:00–16:00 availability, and pricing the 30-minute lesson. These require account access and are the user's to do.
+- **Cal.com account configuration** — setting the location to **Cal Video** on both event types (a launch blocker: without it, a booking tells the student nothing about how to attend), widening the weekday-only 08:00–16:00 availability, and pricing the 30-minute lesson. These require account access and are the user's to do. Lessons are **online only** as of 2026-08-14.
