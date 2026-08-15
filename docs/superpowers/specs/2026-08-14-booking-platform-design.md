@@ -180,18 +180,32 @@ Each item must be *observed*, not assumed:
 
 ---
 
-## 8. Setup steps Jacob must perform himself
+## 8. Confirmed Cal.com configuration
 
-These require account creation or credentials, which cannot be delegated:
+**Username:** `jacob-cunningham-geibwx`
 
-1. Create a free Cal.com account and pick a username (it appears in the booking URL).
-2. Connect Google Calendar so real-life commitments block lesson slots.
-3. Create two event types: in-person (with address) and online (Cal Video).
-4. Set weekly availability.
-5. Add booking questions for first-time students.
-6. In Render, change the service type from Web Service to **Static Site**, which also drops the $7/mo charge.
+| Event type | Slug | Status |
+|---|---|---|
+| 1 Hour Lesson | `1-hour-lesson` | Live, public, returning slots |
+| 30 min | `30min` | Live, public, returning slots |
 
-Once the Cal.com username and event-type slugs exist, they get wired into the page.
+Verified 2026-08-14 against `https://api.cal.com/v2/slots` — both return real availability with correct `-05:00` (America/Chicago) offsets. Both booking pages return HTTP 200.
+
+**Current availability:** weekdays only, 08:00–16:00 Central. No weekend slots.
+
+### Outstanding gaps Jacob must fix in Cal.com
+
+These require account access and cannot be delegated:
+
+1. **Set locations on both event types (launch blocker).** Neither has a location configured, so in-person students receive no address. On each event type: Location → "In Person" + address → **+** → "Cal Video" → Save. With more than one location, the attendee chooses format, which satisfies the "both, student picks" decision without needing four event types.
+2. **Reconsider availability.** Weekdays 08:00–16:00 excludes most working adults and all school-age students. Likely the single biggest limiter on bookings.
+3. **Set a price for the 30-minute lesson.** The site header advertises `$25/hour`; the 30-minute rate is currently undefined.
+4. **Add a description to each event type** — what the lesson covers, what to bring.
+5. **Add booking questions** for first-time students (skill level, goals, guitar type).
+6. **Connect Google Calendar** so personal commitments block lesson slots.
+7. **In Render, change the service type** from Web Service to **Static Site**, which also drops the $7/mo charge.
+
+Items 1 and 7 block launch. Items 2–6 are quality issues that can follow.
 
 ---
 
