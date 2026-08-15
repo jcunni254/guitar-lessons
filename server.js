@@ -104,10 +104,10 @@ const bookingLimiter = rateLimit({
   message: 'Too many booking attempts, please try again later',
   standardHeaders: true,
   legacyHeaders: false,
-  store: new (await import('rate-limit-redis')).default({
-    client: redis,
-    prefix: 'rl:booking:',
-  }),
+  // NOTE: uses the default in-memory store. The previous rate-limit-redis store
+  // was never declared in package.json and is incompatible with @upstash/redis
+  // (it requires a node-redis/ioredis `sendCommand`). Revisit with
+  // @upstash/ratelimit if we scale past a single instance.
 });
 
 // General API limiter
