@@ -40,9 +40,10 @@ jobs:
       # repo but are never served.
       - name: Assemble the published site
         run: |
-          mkdir -p _site
+          mkdir -p _site/assets
           cp index.html _site/index.html
           cp index.html _site/404.html
+          cp -r assets/fonts _site/assets/fonts
 
       - name: Configure Pages
         uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5.0.0

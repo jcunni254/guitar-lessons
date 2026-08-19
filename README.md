@@ -8,7 +8,7 @@ Lessons are **online only**, over Cal Video.
 
 ## Architecture
 
-    Visitor -> GitHub Pages (CDN) -> Cal.com embed -> Google Calendar
+    Visitor -> Render Static Site (CDN) -> Cal.com embed -> Google Calendar
 
 There is no server, no database, and no stored student data. The page is
 a single HTML file with inline CSS and one embed script.
@@ -18,8 +18,10 @@ a single HTML file with inline CSS and one embed script.
 | Path | Purpose |
 |---|---|
 | `index.html` | The entire site: styles, header, and the Cal.com embed |
-| `.github/workflows/pages.yml` | Publishes `index.html` to GitHub Pages on every push to `main` |
-| `tools/csp-hash.py` | Keeps the CSP script hash in sync with the inline script |
+| `render.yaml` | Render Static Site definition, including the security headers |
+| `assets/fonts/` | Self-hosted Cardo and Outfit, so no request goes to Google |
+| `.github/workflows/pages.yml` | CI: checks the CSP, and publishes to GitHub Pages |
+| `tools/csp-hash.py` | Keeps the CSP script hash and the two policies in sync |
 | `docs/superpowers/specs/` | Design decisions and the reasoning behind them |
 | `docs/superpowers/plans/` | Implementation plan |
 | `archive/` | The previous Express + Supabase attempt, kept for reference |
@@ -33,10 +35,20 @@ No build step and no dependencies to install.
 
 ## Security notes
 
-GitHub Pages cannot set response headers, so the Content Security Policy
-lives in a `<meta>` tag in `index.html`. It allows exactly one inline
-script (pinned by SHA-256 hash), scripts and frames from `app.cal.com`,
-and fonts from Google; everything else is denied.
+The Content Security Policy is defined twice, on purpose:
+
+- a `<meta>` tag in `index.html`, so the page defends itself on any host,
+  including a local preview;
+- a real `Content-Security-Policy` header in `render.yaml`, which adds
+  `frame-ancestors 'none'` — a directive a meta tag cannot express.
+
+It allows exactly one inline script (pinned by SHA-256 hash) and scripts
+and frames from `app.cal.com`. Fonts are self-hosted, so no Google origin
+is contacted. Everything else is denied.
+
+The two policies must not drift, because the browser enforces both and the
+symptom of a mismatch is a blank calendar. `tools/csp-hash.py --check`
+compares them and CI fails the build on any difference.
 
 **If you edit the inline `<script>` in `index.html`, run:**
 

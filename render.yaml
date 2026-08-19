@@ -1,0 +1,48 @@
+# Render Static Site.
+#
+# Chosen over GitHub Pages for two reasons: Render permits commercial use on
+# its free tier, and it can set real response headers. A meta tag cannot
+# express frame-ancestors, so on Pages this site could be framed by anyone.
+#
+# The Content-Security-Policy below must stay identical to the meta policy in
+# index.html except for frame-ancestors, which only a header can carry. CI
+# (.github/workflows/pages.yml) runs tools/csp-hash.py --check on every push
+# and fails if the two drift or if the script hash is stale.
+services:
+  - type: web
+    name: guitar-lessons
+    runtime: static
+    branch: main
+
+    # Publish an assembled directory, not the repo root: archive/, docs/ and
+    # tools/ must never be served.
+    buildCommand: "mkdir -p _site/assets && cp index.html _site/index.html && cp -r assets/fonts _site/assets/fonts"
+    staticPublishPath: _site
+    pullRequestPreviewsEnabled: false
+
+    headers:
+      - path: /*
+        name: Content-Security-Policy
+        value: "default-src 'none'; script-src 'sha256-1LZozZvycyNPkh9nABSIY46VOM/fozir2yA2N0yucf8=' https://app.cal.com; style-src 'unsafe-inline'; font-src 'self'; img-src 'self' data:; frame-src https://app.cal.com https://cal.com; connect-src https://app.cal.com https://cal.com; base-uri 'none'; frame-ancestors 'none'; form-action 'none'; upgrade-insecure-requests"
+      - path: /*
+        name: X-Content-Type-Options
+        value: "nosniff"
+      - path: /*
+        name: Referrer-Policy
+        value: "strict-origin-when-cross-origin"
+      - path: /*
+        name: Strict-Transport-Security
+        value: "max-age=31536000"
+
+      # Fonts are immutable and content-named; the page itself must not be
+      # cached long or a booking-page fix would take hours to reach visitors.
+      - path: /assets/fonts/*
+        name: Cache-Control
+        value: "public, max-age=31536000, immutable"
+
+    # Render serves an existing file before consulting routes, so this only
+    # catches unmatched paths (a typo'd URL) and shows the booking page.
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
