@@ -8,7 +8,7 @@ Lessons are **online only**, over Cal Video.
 
 ## Architecture
 
-    Visitor -> Render Static Site (CDN) -> Cal.com embed -> Google Calendar
+    Visitor -> GitHub Pages (CDN) -> Cal.com embed -> Google Calendar
 
 There is no server, no database, and no stored student data. The page is
 a single HTML file with inline CSS and one embed script.
@@ -18,7 +18,7 @@ a single HTML file with inline CSS and one embed script.
 | Path | Purpose |
 |---|---|
 | `index.html` | The entire site: styles, header, and the Cal.com embed |
-| `render.yaml` | Render static site definition |
+| `.github/workflows/pages.yml` | Publishes `index.html` to GitHub Pages on every push to `main` |
 | `docs/superpowers/specs/` | Design decisions and the reasoning behind them |
 | `docs/superpowers/plans/` | Implementation plan |
 | `archive/` | The previous Express + Supabase attempt, kept for reference |
@@ -37,8 +37,14 @@ the event types. Changes are live immediately with no deploy.
 
 ## Deploying
 
-Pushing to `main` triggers an automatic deploy on Render.
+Pushing to `main` triggers the GitHub Pages workflow, which publishes
+**only `index.html`** (a copy is also written as `404.html`, so any path
+serves the site). `archive/` and `docs/` stay in the repo and are never
+served.
+
+Live at <https://jcunni254.github.io/guitar-lessons/>.
 
 ## Cost
 
-$0/month. Render static sites are free; the Cal.com individual plan is free.
+$0/month. GitHub Pages is free for public repositories; the Cal.com
+individual plan is free.

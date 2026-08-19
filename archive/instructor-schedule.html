@@ -461,8 +461,10 @@
     </div>
 
     <script>
-        // SECURITY: Change this password before deploying!
-        const INSTRUCTOR_PASSWORD = 'YourSecurePassword123!';
+        // ARCHIVED, NOT DEPLOYED. This page authenticated in client-side JS,
+        // which is why it was abandoned: any visitor could read the password
+        // via view-source. Value removed.
+        const INSTRUCTOR_PASSWORD = '';
 
         let state = {
             currentMonth: new Date(),
