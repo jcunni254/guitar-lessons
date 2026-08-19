@@ -23,6 +23,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # The CSP pins the inline script by hash. If the script was edited
+      # without updating the hash the embed would silently stop loading in
+      # production, so fail the deploy instead.
+      - name: Verify the CSP script hash matches the inline script
+        run: python3 tools/csp-hash.py --check
+
       # Publish only the site itself. archive/ and docs/ stay in the repo
       # but are never served.
       - name: Assemble the published site

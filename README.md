@@ -19,6 +19,7 @@ a single HTML file with inline CSS and one embed script.
 |---|---|
 | `index.html` | The entire site: styles, header, and the Cal.com embed |
 | `.github/workflows/pages.yml` | Publishes `index.html` to GitHub Pages on every push to `main` |
+| `tools/csp-hash.py` | Keeps the CSP script hash in sync with the inline script |
 | `docs/superpowers/specs/` | Design decisions and the reasoning behind them |
 | `docs/superpowers/plans/` | Implementation plan |
 | `archive/` | The previous Express + Supabase attempt, kept for reference |
@@ -29,6 +30,26 @@ a single HTML file with inline CSS and one embed script.
     # then open http://localhost:8899/index.html
 
 No build step and no dependencies to install.
+
+## Security notes
+
+GitHub Pages cannot set response headers, so the Content Security Policy
+lives in a `<meta>` tag in `index.html`. It allows exactly one inline
+script (pinned by SHA-256 hash), scripts and frames from `app.cal.com`,
+and fonts from Google; everything else is denied.
+
+**If you edit the inline `<script>` in `index.html`, run:**
+
+    python3 tools/csp-hash.py --write
+
+Without that the browser blocks the script and the calendar never loads.
+CI runs `--check` and fails the deploy if the hash is stale, so this
+cannot reach production unnoticed.
+
+`frame-ancestors` is not enforceable from a meta tag, so the page cannot
+stop others from embedding it. Nothing sensitive is entered on this page
+— the booking form is inside Cal.com's own iframe — so the impact is
+cosmetic.
 
 ## Changing availability, prices, or lesson types
 

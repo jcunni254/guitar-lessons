@@ -6,6 +6,13 @@
     <title>Jacob Cunningham Guitar Lessons</title>
     <meta name="description" content="Online beginner guitar lessons over video with Jacob Cunningham. $25 for an hour, $12.50 for 30 minutes. Pick a time and book instantly.">
     <meta name="theme-color" content="#1a1a2e">
+
+    <!-- GitHub Pages cannot set response headers, so the policy lives here.
+         script-src pins the one inline script by hash; tools/csp-hash.py
+         re-checks that hash on every deploy. frame-ancestors is omitted
+         because it is ignored in a meta policy. -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-3EDArivUymhd46HaMGLJ0Sf02806HDuQ++zaw9x1B38=' https://app.cal.com; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; frame-src https://app.cal.com https://cal.com; connect-src https://app.cal.com https://cal.com; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
     <link rel="canonical" href="https://jcunni254.github.io/guitar-lessons/">
 
     <meta property="og:type" content="website">
@@ -1033,6 +1040,25 @@
             border-radius: 8px;
         }
 
+        .embed-status {
+            text-align: center;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.95rem;
+            color: var(--primary);
+            opacity: 0.7;
+            padding: 1rem 0;
+        }
+
+        .embed-status-error {
+            color: var(--accent);
+            opacity: 1;
+            font-weight: 600;
+        }
+
+        .embed-status[hidden] {
+            display: none;
+        }
+
         .embed-fallback {
             text-align: center;
             margin-top: 1.5rem;
@@ -1076,6 +1102,14 @@
             <h2 class="section-title">Book Your Lesson</h2>
 
             <!-- Cal.com booking embed -->
+            <p class="embed-status" id="calLoading">Loading available times&hellip;</p>
+
+            <p class="embed-status embed-status-error" id="calError" hidden>
+                The calendar could not load &mdash; it may be blocked by your browser
+                or temporarily unavailable. You can still book at
+                <a href="https://cal.com/jacob-cunningham-geibwx">cal.com/jacob-cunningham-geibwx</a>.
+            </p>
+
             <div id="cal-booking-embed">
                 <noscript>
                     <p class="embed-fallback-text">
@@ -1125,6 +1159,30 @@
         config: { layout: "month_view" },
         calLink: "jacob-cunningham-geibwx"
       });
+
+      // The embed either renders an iframe or it does not. Poll for it so a
+      // blocked script, a blocked iframe, or a network failure produces a
+      // stated error instead of an empty box.
+      (function watchEmbed() {
+        var loading = document.getElementById("calLoading");
+        var error = document.getElementById("calError");
+        var target = document.getElementById("cal-booking-embed");
+        var deadline = Date.now() + 15000;
+
+        (function poll() {
+          if (target && target.querySelector("iframe")) {
+            if (loading) loading.hidden = true;
+            if (error) error.hidden = true;
+            return;
+          }
+          if (Date.now() > deadline) {
+            if (loading) loading.hidden = true;
+            if (error) error.hidden = false;
+            return;
+          }
+          setTimeout(poll, 250);
+        })();
+      })();
 
       Cal.ns.lessons("ui", {
         layout: "month_view",
