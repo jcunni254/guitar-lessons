@@ -7,11 +7,43 @@
     <meta name="description" content="Online beginner guitar lessons over video with Jacob Cunningham. $25 for an hour, $12.50 for 30 minutes. Pick a time and book instantly.">
     <meta name="theme-color" content="#1a1a2e">
 
-    <!-- GitHub Pages cannot set response headers, so the policy lives here.
-         script-src pins the one inline script by hash; tools/csp-hash.py
-         re-checks that hash on every deploy. frame-ancestors is omitted
-         because it is ignored in a meta policy. -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-3EDArivUymhd46HaMGLJ0Sf02806HDuQ++zaw9x1B38=' https://app.cal.com; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; frame-src https://app.cal.com https://cal.com; connect-src https://app.cal.com https://cal.com; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+    <!-- Content Security Policy.
+
+         GitHub Pages cannot set response headers, so the policy ships in a
+         meta tag. Every exception below exists because a specific resource
+         on this page requires it. If the embed ever breaks after a Cal.com
+         change, find out which resource is being blocked and whether it is
+         actually needed - do not widen a directive to make an error go away.
+
+           default-src 'none'    Deny by default; each directive below opts
+                                 one specific thing back in.
+           script-src            The single inline <script> that boots the
+                                 embed, pinned by SHA-256 (an injected
+                                 script cannot match the hash), plus
+                                 app.cal.com, which serves embed.js. The
+                                 hash is verified in CI by tools/csp-hash.py.
+           style-src             'unsafe-inline' is required because all of
+                                 this page's CSS is in a <style> block and
+                                 Cal.com's embed injects styles for the
+                                 iframe container. fonts.googleapis.com
+                                 serves the two webfont stylesheets.
+           font-src              fonts.gstatic.com serves the font files
+                                 that fonts.googleapis.com points at.
+           img-src               'self' and data: only - the favicon is an
+                                 inline data: SVG. No remote images.
+           frame-src             app.cal.com renders the booker iframe;
+                                 cal.com is listed because the embed may
+                                 redirect there.
+           connect-src           Same two origins, for the embed's own XHR.
+           base-uri 'none'       An injected <base> cannot re-point relative
+                                 URLs.
+           form-action 'none'    This page has no form of its own; the
+                                 booking form lives inside Cal.com's iframe
+                                 and is governed by Cal.com's own policy.
+
+         Not set: frame-ancestors, which is ignored in a meta policy and
+         cannot be sent as a header from GitHub Pages. See README. -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-1LZozZvycyNPkh9nABSIY46VOM/fozir2yA2N0yucf8=' https://app.cal.com; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; frame-src https://app.cal.com https://cal.com; connect-src https://app.cal.com https://cal.com; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
     <meta name="referrer" content="strict-origin-when-cross-origin">
     <link rel="canonical" href="https://jcunni254.github.io/guitar-lessons/">
 
@@ -1104,6 +1136,10 @@
             <!-- Cal.com booking embed -->
             <p class="embed-status" id="calLoading">Loading available times&hellip;</p>
 
+            <p class="embed-status" id="calSlow" hidden>
+                Still loading &mdash; this can take a moment on a slow connection.
+            </p>
+
             <p class="embed-status embed-status-error" id="calError" hidden>
                 The calendar could not load &mdash; it may be blocked by your browser
                 or temporarily unavailable. You can still book at
@@ -1160,26 +1196,56 @@
         calLink: "jacob-cunningham-geibwx"
       });
 
-      // The embed either renders an iframe or it does not. Poll for it so a
-      // blocked script, a blocked iframe, or a network failure produces a
-      // stated error instead of an empty box.
+      // A slow connection is not a failure. Report failure only when the
+      // embed genuinely cannot load: either its script errored outright, or
+      // nothing rendered long after any plausible load. Between those, say
+      // it is still working rather than sending the visitor away.
       (function watchEmbed() {
         var loading = document.getElementById("calLoading");
+        var slow = document.getElementById("calSlow");
         var error = document.getElementById("calError");
         var target = document.getElementById("cal-booking-embed");
-        var deadline = Date.now() + 15000;
+
+        var SLOW_AFTER = 12000;   // say "still loading"
+        var FAILED_AFTER = 45000; // only now call it a failure
+        var started = Date.now();
+        var settled = false;
+
+        function show(el) {
+          if (loading) loading.hidden = el !== loading;
+          if (slow) slow.hidden = el !== slow;
+          if (error) error.hidden = el !== error;
+        }
+
+        function succeed() {
+          if (settled) return;
+          settled = true;
+          show(null);
+        }
+
+        function fail() {
+          if (settled) return;
+          settled = true;
+          show(error);
+        }
+
+        // A blocked or unreachable embed script fires a resource error on
+        // window during the capture phase. That is a definite failure, so
+        // there is no reason to keep the visitor waiting for the timeout.
+        window.addEventListener("error", function (e) {
+          var el = e.target;
+          if (!settled && el && el.tagName === "SCRIPT" && /cal\.com/.test(el.src || "")) {
+            fail();
+          }
+        }, true);
 
         (function poll() {
-          if (target && target.querySelector("iframe")) {
-            if (loading) loading.hidden = true;
-            if (error) error.hidden = true;
-            return;
-          }
-          if (Date.now() > deadline) {
-            if (loading) loading.hidden = true;
-            if (error) error.hidden = false;
-            return;
-          }
+          if (settled) return;
+          if (target && target.querySelector("iframe")) return succeed();
+
+          var waited = Date.now() - started;
+          if (waited > FAILED_AFTER) return fail();
+          if (waited > SLOW_AFTER && slow) show(slow);
           setTimeout(poll, 250);
         })();
       })();

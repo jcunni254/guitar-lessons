@@ -65,6 +65,18 @@ served.
 
 Live at <https://jcunni254.github.io/guitar-lessons/>.
 
+Actions in the workflow are pinned to full commit SHAs with the release
+they correspond to in a trailing comment. A tag can be repointed at
+different code; a SHA cannot. Update them deliberately, never automatically.
+
+Note: GitHub's Pages limits page says Pages "is not intended for or allowed
+to be used as a free web-hosting service to run your online business,
+e-commerce site, or any other website that is primarily directed at either
+facilitating commercial transactions." This site takes no payments and
+stores no customer data, but it is the booking front door for paid lessons,
+so it sits in a grey area. Cloudflare Pages and Netlify permit commercial
+use on their free tiers if this ever needs to move.
+
 ## Cost
 
 $0/month. GitHub Pages is free for public repositories; the Cal.com

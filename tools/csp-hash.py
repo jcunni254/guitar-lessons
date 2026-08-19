@@ -15,14 +15,21 @@ import re
 import sys
 
 PAGE = pathlib.Path(__file__).resolve().parent.parent / "index.html"
+COMMENT_RE = re.compile(r"<!--.*?-->", re.DOTALL)
 SCRIPT_RE = re.compile(r"<script>(.*?)</script>", re.DOTALL)
 HASH_RE = re.compile(r"script-src '([^']*)'")
 
 
 def current_and_expected(html):
-    scripts = SCRIPT_RE.findall(html)
+    # Comments are stripped first: the CSP documentation block mentions the
+    # literal tag, and matching that would hash the wrong span of the file
+    # and quietly publish a hash that blocks the real script.
+    scripts = SCRIPT_RE.findall(COMMENT_RE.sub("", html))
     if len(scripts) != 1:
         sys.exit(f"expected exactly 1 inline <script>, found {len(scripts)}")
+    if "Cal(" not in scripts[0]:
+        sys.exit("the matched inline script is not the Cal.com bootstrap; "
+                 "refusing to write a hash for the wrong content")
     digest = hashlib.sha256(scripts[0].encode("utf-8")).digest()
     expected = "sha256-" + base64.b64encode(digest).decode("ascii")
     found = HASH_RE.search(html)
